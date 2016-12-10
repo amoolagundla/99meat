@@ -99,7 +99,7 @@ namespace _99meat.Controllers
                     throw;
                 }
             }
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok();
         }
 
         // POST: api/Addresses

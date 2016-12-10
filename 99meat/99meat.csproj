@@ -261,6 +261,64 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="assets\fonts\ionicons.svg" />
+    <Content Include="assets\icon\favicon.ico" />
+    <Content Include="assets\img\1.jpg" />
+    <Content Include="assets\img\2.jpg" />
+    <Content Include="assets\img\3.jpg" />
+    <Content Include="assets\img\adam.jpg" />
+    <Content Include="assets\img\ben.png" />
+    <Content Include="assets\img\bg.jpg" />
+    <Content Include="assets\img\categories\appetizes.png" />
+    <Content Include="assets\img\categories\bugger.jpg" />
+    <Content Include="assets\img\categories\desserts.png" />
+    <Content Include="assets\img\categories\drink.jpg" />
+    <Content Include="assets\img\categories\entree.jpg" />
+    <Content Include="assets\img\categories\fruit.jpg" />
+    <Content Include="assets\img\categories\Originals\buger.jpg" />
+    <Content Include="assets\img\categories\Originals\cat-a-5-1.png" />
+    <Content Include="assets\img\categories\Originals\drink.jpg" />
+    <Content Include="assets\img\categories\Originals\entrees.jpg" />
+    <Content Include="assets\img\categories\Originals\fruit.jpg" />
+    <Content Include="assets\img\categories\Originals\pizza.jpeg" />
+    <Content Include="assets\img\categories\Originals\salad.jpg" />
+    <Content Include="assets\img\categories\Originals\sides.png" />
+    <Content Include="assets\img\categories\Originals\sushi.jpg" />
+    <Content Include="assets\img\categories\pizza.jpg" />
+    <Content Include="assets\img\categories\salad.jpg" />
+    <Content Include="assets\img\categories\sides.png" />
+    <Content Include="assets\img\categories\sushi.jpg" />
+    <Content Include="assets\img\Chicken Leg pieces without skin.jpg" />
+    <Content Include="assets\img\ionic.png" />
+    <Content Include="assets\img\items\brick_chicken.jpg" />
+    <Content Include="assets\img\items\fried_calamari.jpg" />
+    <Content Include="assets\img\items\marsala_chicken.jpg" />
+    <Content Include="assets\img\items\rib_eyes.jpg" />
+    <Content Include="assets\img\items\rib_eye_2.jpg" />
+    <Content Include="assets\img\items\rib_eye_3.jpg" />
+    <Content Include="assets\img\items\rib_eye_4.jpg" />
+    <Content Include="assets\img\items\seared_tuna.jpg" />
+    <Content Include="assets\img\items\thumbs\brick_chicken.jpg" />
+    <Content Include="assets\img\items\thumbs\fried_calamari.jpg" />
+    <Content Include="assets\img\items\thumbs\marsala_chicken.jpg" />
+    <Content Include="assets\img\items\thumbs\rib_eyes.jpg" />
+    <Content Include="assets\img\items\thumbs\seared_tuna.jpg" />
+    <Content Include="assets\img\items\thumbs\zuppa.jpg" />
+    <Content Include="assets\img\items\zuppa.jpg" />
+    <Content Include="assets\img\max.png" />
+    <Content Include="assets\img\mike.png" />
+    <Content Include="assets\img\people\adam.jpg" />
+    <Content Include="assets\img\people\ben.png" />
+    <Content Include="assets\img\people\canada.jpg" />
+    <Content Include="assets\img\people\max.png" />
+    <Content Include="assets\img\people\mike.png" />
+    <Content Include="assets\img\people\perry.png" />
+    <Content Include="assets\img\perry.png" />
+    <Content Include="assets\img\Sheep Mutton with bone.jpg" />
+    <Content Include="assets\img\Whole Chicken without skin curry cut.jpg" />
+    <Content Include="build\main.css" />
+    <Content Include="build\main.js" />
+    <Content Include="build\polyfills.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\favicon.ico" />
@@ -291,6 +349,18 @@
     <Content Include="Metadata\deploymentTemplates\apiappconfig.azureresource.json" />
     <Content Include="apiapp.json" />
     <Content Include="manifest.json" />
+    <Content Include="assets\fonts\ionicons.eot" />
+    <Content Include="assets\fonts\ionicons.ttf" />
+    <Content Include="assets\fonts\ionicons.woff" />
+    <Content Include="assets\fonts\ionicons.woff2" />
+    <Content Include="assets\img\categories\Originals\Thumbs.db" />
+    <Content Include="assets\img\categories\Thumbs.db" />
+    <Content Include="assets\img\items\Thumbs.db" />
+    <Content Include="assets\img\items\thumbs\Thumbs.db" />
+    <Content Include="assets\img\people\Thumbs.db" />
+    <Content Include="assets\img\Thumbs.db" />
+    <Content Include="assets\manifest.json" />
+    <Content Include="build\main.js.map" />
     <None Include="Properties\PublishProfiles\99Pumba - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\99Pumba - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -324,8 +394,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="assets\" />
-    <Folder Include="build\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

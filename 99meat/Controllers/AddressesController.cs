@@ -61,6 +61,9 @@ namespace _99meat.Controllers
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutAddress(int id, Address address)
         {
+            if (string.IsNullOrEmpty(address.UserName.ToString()))
+                address.UserName = User.Identity.Name;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -106,6 +109,9 @@ namespace _99meat.Controllers
         [ResponseType(typeof(Address))]
         public async Task<IHttpActionResult> PostAddress(Address address)
         {
+            if (string.IsNullOrEmpty(address.UserName.ToString()))
+                address.UserName = User.Identity.Name;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

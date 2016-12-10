@@ -1,0 +1,134 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Address</ion-title>
+    <ion-buttons end>
+      <button ion-button>
+        <ion-icon name="md-more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding class="cart gray-bg">
+  <ion-list class="list-no-border">
+
+    <ion-item-sliding class="card" *ngFor="let Addresses of userInfo.Addresses;"  [hidden]="myVar" margin-top>
+      <ion-item>
+        <ion-label>{{Addresses.Address1}}</ion-label>  
+    <br/>
+     <ion-label>{{Addresses.Address2}} , {{Addresses.Address1}}</ion-label>  
+    <br/>
+		<br/>
+		<br/>
+     <ion-label> {{Addresses.City}}, {{Addresses.State}}, {{Addresses.PostalCode}}</ion-label> <br/> 
+		  
+      </ion-item><br/>
+      <ion-item-options><button ion-button  (click)="EditAddress(Addresses)">
+            <ion-icon name="navigate"></ion-icon>
+          </button><br/>
+        <button ion-button (click)="remove(Addresses.Id)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+  </ion-list>
+  
+
+<div class="container" [hidden]="!myVar">
+    <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+		<div class="form-group" [hidden]="true">      
+      <input type="text" class="form-control" 
+        name="Id" [(ngModel)]="address.Id" 
+        #Id="ngModel" required >
+    
+      <!--<pre>{{name.errors | json}}</pre>-->
+    </div>
+		<div class="form-group" [hidden]="true">     
+      <input type="text" class="form-control" 
+        name="UserName" [(ngModel)]="address.UserName" 
+        #UserName="ngModel"  >
+    
+      <!--<pre>{{name.errors | json}}</pre>-->
+    </div>
+		<div class="form-group" [hidden]="true">     
+      <input type="text" class="form-control" 
+        name="Country" [(ngModel)]="address.Country" 
+        #Country="ngModel"  >
+    
+      <!--<pre>{{name.errors | json}}</pre>-->
+    </div>
+		<div class="form-group" [hidden]="true">       
+        <input type="text" class="form-control" 
+          name="Address3" [(ngModel)]="address.Address3"
+          #Address3="ngModel" >
+     
+      </div>
+    <div class="form-group">
+      <label>Street / Door Number </label>
+      <input type="text" class="form-control" 
+        name="Address1" [(ngModel)]="address.Address1" 
+        #Address1="ngModel" required >
+      <small [hidden]="Address1.valid || (Address1.pristine && !f.submitted)" class="text-danger">
+            Street / Door Number is required .
+          </small>
+      <!--<pre>{{name.errors | json}}</pre>-->
+    </div>
+     
+      <div class="form-group">
+        <label>Apt #/ Unit</label>
+        <input type="text" class="form-control" 
+          name="Address2" [(ngModel)]="address.Address2"
+          #Address2="ngModel" required>
+        <small [hidden]="Address2.valid || (Address2.pristine && !f.submitted)" class="text-danger">
+          Apt# / Unit is required.
+        </small>
+      </div>
+			
+			
+			
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" class="form-control" 
+          name="City" [(ngModel)]="address.City"
+          #City="ngModel" required>
+        <small [hidden]="City.valid || (City.pristine && !f.submitted)" class="text-danger">
+          City is required.
+        </small>
+      </div>
+       <div class="form-group">
+        <label>State</label>
+        <input type="text" class="form-control" 
+          name="State" [(ngModel)]="address.State"
+          #State="ngModel" required>
+        <small [hidden]="State.valid || (State.pristine && !f.submitted)" class="text-danger">
+          State is required.
+        </small>
+      </div>
+      <div class="form-group">
+        <label>Post code</label>
+        <input type="PostalCode" class="form-control" 
+          name="PostalCode" [(ngModel)]="address.PostalCode">
+      </div>
+    <div class="form-group">
+   <ion-item>
+    
+    <ion-checkbox [(ngModel)]="address.IsDefault" name="IsDefault"></ion-checkbox>
+		<ion-label>Make this Primary Address</ion-label>
+  </ion-item>
+	 </div>
+    <button type="submit" class="btn btn-block btn-danger" ng-click="SaveAddress(Addresses)">Save Address</button>
+  </form>
+ 
+</div>
+</ion-content>

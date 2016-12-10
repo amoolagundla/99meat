@@ -88,7 +88,17 @@ namespace _99meat.Controllers
                     throw;
                 }
             }
-
+            catch (Exception ex)
+            {
+                if (!AddressExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return StatusCode(HttpStatusCode.NoContent);
         }
 

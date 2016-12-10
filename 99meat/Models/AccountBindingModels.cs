@@ -12,7 +12,14 @@ namespace _99meat.Models
         [Display(Name = "External access token")]
         public string ExternalAccessToken { get; set; }
     }
-
+    public class MyUSerInfo
+    {
+        [Key]
+        public int Id { get; set; }
+        public string PhoneNumber { get; set; }
+      
+       
+    }
     public class ChangePasswordBindingModel
     {
         [Required]
@@ -48,6 +55,11 @@ namespace _99meat.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "PhoneNumber")]
+        public string PhoneNumber { get; set; }
     }
 
     public class RegisterExternalBindingModel
@@ -81,6 +93,21 @@ namespace _99meat.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+    public  class AspNetUser
+    {
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public string PasswordHash { get; set; }
+        public string SecurityStamp { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public bool TwoFactorEnabled { get; set; }
+        public Nullable<System.DateTime> LockoutEndDateUtc { get; set; }
+        public bool LockoutEnabled { get; set; }
+        public int AccessFailedCount { get; set; }
+        public string UserName { get; set; }
+    }
     public class Address
     {
         [Key]
@@ -93,5 +120,37 @@ namespace _99meat.Models
         public string Country { get; set; }
         public string PostalCode { get; set; }
         public string UserName { get; set; }
+        public bool IsDefault { get; set; }
+    }
+
+    public class Product
+    {
+        [Key]
+        public int Id { get; set; }
+        public string ProdcutName { get; set; }
+        public string ProductDesc { get; set; }
+        public bool IsProductActive { get; set; }
+        
+    }
+
+    public class Favourite
+    {
+        [Key]
+        public int Id { get; set; }
+        public int  ProductId { get; set; }
+        public int UserId { get; set; }
+        public string Email { get; set; }
+
+    }
+
+    public class Order
+    {
+        [Key]
+        public int Id { get; set; }
+        public int ProductId { get; set; }
+        public string UserId { get; set; }
+        public string Email { get; set; }
+        public DateTime OrderDate { get; set; }
+        public DateTime DeliveryTime { get; set; }
     }
 }

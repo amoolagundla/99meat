@@ -24,12 +24,15 @@ namespace _99meat.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-        
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
-
+        public System.Data.Entity.DbSet<_99meat.Models.Favourite> Favourites { get; set; }
         public System.Data.Entity.DbSet<_99meat.Models.Address> Addresses { get; set; }
+        public System.Data.Entity.DbSet<_99meat.Models.Product> Products { get; set; }
+        public System.Data.Entity.DbSet<_99meat.Models.Order> Orders { get; set; }
+
     }
 }

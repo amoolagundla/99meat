@@ -60,10 +60,11 @@ namespace _99meat.Controllers
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
+            var user = db.Database.SqlQuery<ApplicationUser>("GetUserByEmail @email", User.Identity.GetUserName()).FirstOrDefault();
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
+                Id=user.Id,
+                Email = user.Email,
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
@@ -354,7 +355,7 @@ namespace _99meat.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, PhoneNumber=model.PhoneNumber };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
@@ -446,7 +447,7 @@ namespace _99meat.Controllers
             return null;
         }
 
-        private class ExternalLoginData
+        public class ExternalLoginData
         {
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }

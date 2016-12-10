@@ -27,6 +27,7 @@ namespace _99meat.Models
 
     public class UserInfoViewModel
     {
+        public string Id { get; set; }
         public string Email { get; set; }
 
         public bool HasRegistered { get; set; }
@@ -35,14 +36,21 @@ namespace _99meat.Models
     }
     public class UserInfoViewModelWithAddresses
     {
+        public string Id { get; set; }
+
         public string Email { get; set; }
 
         public bool HasRegistered { get; set; }
 
         public string LoginProvider { get; set; }
 
+        public string PhoneNumber { get; set; }
+
         public List<Address> Addresses { get;set;}
+
+        public List<Order> Orders { get; set; }
     }
+    
     public class UserLoginInfoViewModel
     {
         public string LoginProvider { get; set; }

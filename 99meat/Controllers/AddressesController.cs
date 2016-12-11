@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using _99meat.Models;
+using System.Data.SqlClient;
 
 namespace _99meat.Controllers
 {
@@ -61,6 +62,9 @@ namespace _99meat.Controllers
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutAddress(int id, Address address)
         {
+            if (string.IsNullOrEmpty(address.UserName.ToString()))
+                address.UserName = User.Identity.Name;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -106,6 +110,9 @@ namespace _99meat.Controllers
         [ResponseType(typeof(Address))]
         public async Task<IHttpActionResult> PostAddress(Address address)
         {
+            if (string.IsNullOrEmpty(address.UserName.ToString()))
+                address.UserName = User.Identity.Name;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -119,18 +126,18 @@ namespace _99meat.Controllers
 
         // DELETE: api/Addresses/5
         [ResponseType(typeof(Address))]
-        public async Task<IHttpActionResult> DeleteAddress(int id)
+        public  IHttpActionResult DeleteAddress(int id)
         {
-            Address address = await db.Addresses.FindAsync(id);
-            if (address == null)
+            var i = db.Database.SqlQuery<int>(
+    "exec DeleteAddresses @Id",
+    new SqlParameter("Id", id)).ToList<int>();
+           
+            if (i == null)
             {
                 return NotFound();
             }
-
-            db.Addresses.Remove(address);
-            await db.SaveChangesAsync();
-
-            return Ok(address);
+          
+            return Ok(i);
         }
 
         protected override void Dispose(bool disposing)

@@ -110,6 +110,7 @@ namespace _99meat.Models
     }
     public class Address
     {
+        private bool _isActive = true;
         [Key]
         public int Id { get; set; }
         public string Address1 { get; set; }
@@ -121,6 +122,19 @@ namespace _99meat.Models
         public string PostalCode { get; set; }
         public string UserName { get; set; }
         public bool IsDefault { get; set; }
+
+        public bool IsActive
+        {
+            get
+            {
+                return _isActive;
+            }
+
+            set
+            {
+                _isActive = value;
+            }
+        }
     }
 
     public class Product

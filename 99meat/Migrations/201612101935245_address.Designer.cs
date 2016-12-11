@@ -7,13 +7,13 @@ namespace _99meat.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Address : IMigrationMetadata
+    public sealed partial class address : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Address));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(address));
         
         string IMigrationMetadata.Id
         {
-            get { return "201612080533277_Address"; }
+            get { return "201612101935245_address"; }
         }
         
         string IMigrationMetadata.Source

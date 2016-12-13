@@ -228,29 +228,16 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddressesController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\FavouritesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612080213550_Favourite.cs" />
-    <Compile Include="Migrations\201612080213550_Favourite.Designer.cs">
-      <DependentUpon>201612080213550_Favourite.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612080508241_Order.cs" />
-    <Compile Include="Migrations\201612080508241_Order.Designer.cs">
-      <DependentUpon>201612080508241_Order.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612090410574_Order1.cs" />
-    <Compile Include="Migrations\201612090410574_Order1.Designer.cs">
-      <DependentUpon>201612090410574_Order1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612101935245_address.cs" />
-    <Compile Include="Migrations\201612101935245_address.Designer.cs">
-      <DependentUpon>201612101935245_address.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -266,11 +253,17 @@
     <Content Include="assets\fonts\ionicons.svg" />
     <Content Include="assets\icon\favicon.ico" />
     <Content Include="assets\img\1.jpg" />
+    <Content Include="assets\img\10.jpg" />
+    <Content Include="assets\img\11.png" />
+    <Content Include="assets\img\12.jpg" />
     <Content Include="assets\img\2.jpg" />
     <Content Include="assets\img\3.jpg" />
     <Content Include="assets\img\4.jpg" />
     <Content Include="assets\img\5.jpg" />
     <Content Include="assets\img\6.jpg" />
+    <Content Include="assets\img\7.jpg" />
+    <Content Include="assets\img\8.jpg" />
+    <Content Include="assets\img\9.jpg" />
     <Content Include="assets\img\adam.jpg" />
     <Content Include="assets\img\ben.png" />
     <Content Include="assets\img\bg.jpg" />
@@ -295,6 +288,16 @@
     <Content Include="assets\img\categories\sushi.jpg" />
     <Content Include="assets\img\Chicken Leg pieces without skin.jpg" />
     <Content Include="assets\img\ionic.png" />
+    <Content Include="assets\img\items\1.jpg" />
+    <Content Include="assets\img\items\10.jpg" />
+    <Content Include="assets\img\items\11.png" />
+    <Content Include="assets\img\items\12.jpg" />
+    <Content Include="assets\img\items\13.jpg" />
+    <Content Include="assets\img\items\14.jpg" />
+    <Content Include="assets\img\items\4.jpg" />
+    <Content Include="assets\img\items\6.jpg" />
+    <Content Include="assets\img\items\8.jpg" />
+    <Content Include="assets\img\items\9.jpg" />
     <Content Include="assets\img\items\brick_chicken.jpg" />
     <Content Include="assets\img\items\fried_calamari.jpg" />
     <Content Include="assets\img\items\marsala_chicken.jpg" />
@@ -397,6 +400,16 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Category\Create.cshtml" />
+    <Content Include="Views\Category\Delete.cshtml" />
+    <Content Include="Views\Category\Details.cshtml" />
+    <Content Include="Views\Category\Edit.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Product\Delete.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\Product\Edit.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -411,20 +424,6 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612080213550_Favourite.resx">
-      <DependentUpon>201612080213550_Favourite.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612080508241_Order.resx">
-      <DependentUpon>201612080508241_Order.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612090410574_Order1.resx">
-      <DependentUpon>201612090410574_Order1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612101935245_address.resx">
-      <DependentUpon>201612101935245_address.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

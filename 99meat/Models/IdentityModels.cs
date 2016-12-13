@@ -29,10 +29,11 @@ namespace _99meat.Models
         {
             return new ApplicationDbContext();
         }
+       
         public System.Data.Entity.DbSet<_99meat.Models.Favourite> Favourites { get; set; }
         public System.Data.Entity.DbSet<_99meat.Models.Address> Addresses { get; set; }
         public System.Data.Entity.DbSet<_99meat.Models.Product> Products { get; set; }
         public System.Data.Entity.DbSet<_99meat.Models.Order> Orders { get; set; }
-
+        public System.Data.Entity.DbSet<_99meat.Models.category> categories { get; set; }
     }
 }

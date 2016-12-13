@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _99meat.Models
 {
@@ -144,6 +146,22 @@ namespace _99meat.Models
         public string ProdcutName { get; set; }
         public string ProductDesc { get; set; }
         public bool IsProductActive { get; set; }
+        public decimal Price { get; set; }
+        public string thumb { get; set; }
+        private int _offer = 0; 
+        public int Offer
+        {
+            get
+            {
+                return _offer;
+            }
+
+            set
+            {
+                _offer = value;
+            }
+        }
+        public   category category { get; set; }
         
     }
 
@@ -161,10 +179,36 @@ namespace _99meat.Models
     {
         [Key]
         public int Id { get; set; }
-        public int ProductId { get; set; }
         public string UserId { get; set; }
+        public string AddressId { get; set; }
         public string Email { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime DeliveryTime { get; set; }
+        public string modPayment { get; set; }
+        public string OrderStatus { get; set; }
+        public decimal OrderTotal { get; set; }
+        public List<OrderDetail> OrderItems { get; set; }
+    }
+
+  
+    public class OrderDetail
+    {
+        [Key]
+        public int Id { get; set; }
+        public Order  Order { get; set; }
+        public Product Product { get; set; }
+        public int Amount { get; set; }
+        public int Quanity { get; set; }
+        public decimal UnitPrice { get; set; }
+    }
+
+    public class category
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string CategoryDescription { get; set; }
+        public string thumb { get; set; }
+        public List<Product> Items { get; set; }
     }
 }

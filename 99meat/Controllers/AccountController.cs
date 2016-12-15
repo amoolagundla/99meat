@@ -63,14 +63,15 @@ namespace _99meat.Controllers
             var user = db.Database.SqlQuery<ApplicationUser>("GetUserByEmail @email", User.Identity.GetUserName()).FirstOrDefault();
             return new UserInfoViewModel
             {
-                Id=user.Id,
+                Id = user.Id,
                 Email = user.Email,
+                
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
         }
 
-      
+
         [Route("GetByUserInfo")]
         public UserInfoViewModelWithAddresses GetByUserName()
         {
@@ -82,15 +83,15 @@ namespace _99meat.Controllers
             {
                 return null;
             }
-            var userddress=address.ToList().FindAll(x => x.UserName.ToLower().ToString().Equals(User.Email.ToString()));
+            var userddress = address.ToList().FindAll(x => x.UserName.ToLower().ToString().Equals(User.Email.ToString()));
             return new UserInfoViewModelWithAddresses
             {
                 Email = User.Email,
                 HasRegistered = User.HasRegistered,
                 LoginProvider = User.LoginProvider,
-                Addresses =userddress!=null?userddress:null
+                Addresses = userddress != null ? userddress : null
             };
-            
+
         }
 
         // POST api/Account/Logout
@@ -152,7 +153,7 @@ namespace _99meat.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -285,9 +286,9 @@ namespace _99meat.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -352,19 +353,23 @@ namespace _99meat.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string er = string.Empty;
+                ModelState.Values.ToList().ForEach(x => er += x.ToString() + ",");
+                return Ok(er);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, PhoneNumber=model.PhoneNumber };
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, PhoneNumber = model.PhoneNumber, FirstName= model.FirstName,LastName=model.LastName };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
-                return GetErrorResult(result);
+                string er = string.Empty;
+                result.Errors.ToList().ForEach(x => er += x.ToString()+",");
+                return Ok(er);
             }
 
-            return Ok();
+            return Ok("success");
         }
 
         // POST api/Account/RegisterExternal
@@ -395,7 +400,7 @@ namespace _99meat.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }

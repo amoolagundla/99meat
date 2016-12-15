@@ -18,22 +18,47 @@ namespace _99meat.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Categories
-        public IQueryable<category> Getcategories()
+        public IHttpActionResult Getcategories()
         {
-            return db.categories;
+            var cat = db.categories.ToList<category>();
+            var products = db.Products.ToList<Product>();
+
+            foreach (var c in cat)
+            {
+                c.Items = new List<Product>();
+                foreach (var p in products)
+                {
+                    if (p.category.Id.ToString().Equals(c.Id.ToString()))
+                        c.Items.Add(p);
+                }
+            }
+           
+
+            return  Ok(cat);
         }
 
         // GET: api/Categories/5
         [ResponseType(typeof(category))]
         public async Task<IHttpActionResult> Getcategory(int id)
         {
-            category category = await db.categories.FindAsync(id);
-            if (category == null)
+            var cat = db.categories.ToList<category>();
+            var products = db.Products.ToList<Product>();
+
+            foreach (var c in cat)
+            {
+                c.Items = new List<Product>();
+                foreach (var p in products)
+                {
+                    if (p.category.Id.ToString().Equals(c.Id.ToString()))
+                        c.Items.Add(p);
+                }
+            }
+            if (cat == null)
             {
                 return NotFound();
             }
 
-            return Ok(category);
+            return Ok(cat);
         }
 
         // PUT: api/Categories/5

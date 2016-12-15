@@ -25,13 +25,17 @@ namespace _99meat.Controllers
         public async Task<IHttpActionResult> GetAll()
         {
             var userInfo = db.Database.SqlQuery<AspNetUser>("GetUserByEmail @email", new SqlParameter("@email", User.Identity.Name) ).FirstOrDefault();
+          
             var orders = new UserInfoViewModelWithAddresses()
             {
                 Id = userInfo.Id,
-                 Email=userInfo.Email,
-                  
-                Addresses = db.Database.SqlQuery<Address>("GetAddressesEmail @email", new SqlParameter("@email", userInfo.Email)).ToListAsync().Result,
-                Orders=db.Database.SqlQuery<Order>("GetOrderByUserId @Id", new SqlParameter("@Id", userInfo.Id)).ToListAsync().Result
+                Email = userInfo.Email,
+                FirstName = userInfo.FirstName,
+                 LastName =userInfo.LastName,
+                 PhoneNumber=userInfo.PhoneNumber,
+                Addresses = await db.Database.SqlQuery<Address>("GetAddressesEmail @email", new SqlParameter("@email", userInfo.Email)).ToListAsync(),
+                Orders=await db.Database.SqlQuery<Order>("GetOrderByUserId @Id", new SqlParameter("@Id", userInfo.Id)).ToListAsync()
+              
 
             };
             if (userInfo == null)
@@ -41,5 +45,20 @@ namespace _99meat.Controllers
 
             return Ok(orders);
         }
+
+        // GET: api/Products/5
+        [ResponseType(typeof(UserInfoViewModelWithAddresses))]
+        [HttpPost]
+        public async Task<IHttpActionResult> SaveProfile(UserInfoViewModelWithAddresses UserInfo)
+        {
+            var userInfo = db.Database.SqlQuery<int>("SaveProfile @Email,@FirstName,@LastName,@PhoneNumber"
+                                                  , new SqlParameter("@Email", User.Identity.Name)
+                                                   , new SqlParameter("@FirstName", UserInfo.FirstName)
+                                                    , new SqlParameter("@LastName", UserInfo.LastName)
+                                                     , new SqlParameter("@PhoneNumber", UserInfo.PhoneNumber)
+                                                  ).Single<int>();
+            return Ok(userInfo);
+        }
+
     }
 }

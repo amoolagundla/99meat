@@ -18,9 +18,8 @@ namespace _99meat.Models
     {
         [Key]
         public int Id { get; set; }
-        public string PhoneNumber { get; set; }
-      
        
+
     }
     public class ChangePasswordBindingModel
     {
@@ -62,6 +61,12 @@ namespace _99meat.Models
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "PhoneNumber")]
         public string PhoneNumber { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
     }
 
     public class RegisterExternalBindingModel
@@ -109,6 +114,8 @@ namespace _99meat.Models
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
     public class Address
     {
@@ -204,11 +211,18 @@ namespace _99meat.Models
 
     public class category
     {
+        public category()
+            {
+            Items = new List<Product>();
+            }
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string CategoryDescription { get; set; }
         public string thumb { get; set; }
-        public List<Product> Items { get; set; }
+
+        public  List<Product> Items { get; set; }
+
+    
     }
 }

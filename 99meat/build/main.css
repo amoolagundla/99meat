@@ -30813,6 +30813,10 @@ ion-slides[pager] .swiper-pagination {
   display: block !important;
 }
 
+.ion-footer {
+  bottom: 25px !important;
+}
+
 page-home ion-slides,
 .home ion-slides {
   height: auto;
@@ -31047,6 +31051,10 @@ page-favorite .button-cart,
   line-height: 3em;
   font-size: 0.8em;
   padding: 1.2em 0.8em;
+}
+
+.ion-footer {
+  bottom: 25px !important;
 }
 
 page-home ion-slides,

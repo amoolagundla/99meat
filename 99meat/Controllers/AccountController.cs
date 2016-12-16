@@ -17,6 +17,7 @@ using _99meat.Models;
 using _99meat.Providers;
 using _99meat.Results;
 using System.Linq;
+using System.Text;
 
 namespace _99meat.Controllers
 {
@@ -353,8 +354,12 @@ namespace _99meat.Controllers
         {
             if (!ModelState.IsValid)
             {
-                string er = string.Empty;
-                ModelState.Values.ToList().ForEach(x => er += x.ToString() + ",");
+                StringBuilder er = new StringBuilder();
+              foreach(var obj in ModelState.ToList())
+                {
+                    foreach (var err in obj.Value.Errors)
+                        er.Append(err.ErrorMessage.ToString() + ",");
+                }
                 return Ok(er);
             }
 
@@ -364,8 +369,12 @@ namespace _99meat.Controllers
 
             if (!result.Succeeded)
             {
-                string er = string.Empty;
-                result.Errors.ToList().ForEach(x => er += x.ToString()+",");
+                StringBuilder er = new StringBuilder();
+                foreach (var obj in result.Errors)
+                {
+                    
+                        er.Append(obj.ToString() + ",");
+                }
                 return Ok(er);
             }
 

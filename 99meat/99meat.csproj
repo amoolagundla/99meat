@@ -317,6 +317,7 @@
     <Content Include="assets\img\items\thumbs\seared_tuna.jpg" />
     <Content Include="assets\img\items\thumbs\zuppa.jpg" />
     <Content Include="assets\img\items\zuppa.jpg" />
+    <Content Include="assets\img\logo.jpeg" />
     <Content Include="assets\img\max.png" />
     <Content Include="assets\img\mike.png" />
     <Content Include="assets\img\people\adam.jpg" />

@@ -14,5 +14,11 @@ namespace _99meat.Controllers
 
             return View();
         }
+        public ActionResult Meat()
+        {
+            ViewBag.Title = "Home Page";
+
+            return View();
+        }
     }
 }

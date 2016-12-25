@@ -232,6 +232,8 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\FavouritesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
@@ -243,6 +245,18 @@
     <Compile Include="Migrations\201612142319259_Init.Designer.cs">
       <DependentUpon>201612142319259_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612241643264_order.cs" />
+    <Compile Include="Migrations\201612241643264_order.Designer.cs">
+      <DependentUpon>201612241643264_order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612241645062_orderdetail.cs" />
+    <Compile Include="Migrations\201612241645062_orderdetail.Designer.cs">
+      <DependentUpon>201612241645062_orderdetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612242045483_order1.cs" />
+    <Compile Include="Migrations\201612242045483_order1.Designer.cs">
+      <DependentUpon>201612242045483_order1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -251,6 +265,7 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\Order.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -291,6 +306,7 @@
     <Content Include="assets\img\categories\sides.png" />
     <Content Include="assets\img\categories\sushi.jpg" />
     <Content Include="assets\img\Chicken Leg pieces without skin.jpg" />
+    <Content Include="assets\img\icon.jpg" />
     <Content Include="assets\img\ionic.png" />
     <Content Include="assets\img\items\1.jpg" />
     <Content Include="assets\img\items\10.jpg" />
@@ -415,6 +431,13 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Order\Create.cshtml" />
+    <Content Include="Views\Order\Delete.cshtml" />
+    <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Order\Edit.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Home\99Meat.cshtml" />
+    <Content Include="Views\Home\Meat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -436,6 +459,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201612142319259_Init.resx">
       <DependentUpon>201612142319259_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612241643264_order.resx">
+      <DependentUpon>201612241643264_order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612241645062_orderdetail.resx">
+      <DependentUpon>201612241645062_orderdetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612242045483_order1.resx">
+      <DependentUpon>201612242045483_order1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

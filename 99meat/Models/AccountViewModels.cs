@@ -48,7 +48,7 @@ namespace _99meat.Models
 
         public List<Address> Addresses { get;set;}
 
-        public List<Order> Orders { get; set; }
+        public List<ViewModel.OrderViewModel> Orders { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
       public List<Product> Products { get; set; }

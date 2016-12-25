@@ -24,7 +24,7 @@ namespace _99meat.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetAll()
         {
-            var userInfo = db.Database.SqlQuery<AspNetUser>("GetUserByEmail @email", new SqlParameter("@email", User.Identity.Name) ).FirstOrDefault();
+            var userInfo = await db.Database.SqlQuery<AspNetUser>("GetUserByEmail @email", new SqlParameter("@email", User.Identity.Name) ).FirstOrDefaultAsync();
           
             var orders = new UserInfoViewModelWithAddresses()
             {
@@ -34,10 +34,10 @@ namespace _99meat.Controllers
                  LastName =userInfo.LastName,
                  PhoneNumber=userInfo.PhoneNumber,
                 Addresses = await db.Database.SqlQuery<Address>("GetAddressesEmail @email", new SqlParameter("@email", userInfo.Email)).ToListAsync(),
-                Orders=await db.Database.SqlQuery<Order>("GetOrderByUserId @Id", new SqlParameter("@Id", userInfo.Id)).ToListAsync()
-              
+                Orders= await db.Database.SqlQuery<ViewModel.OrderViewModel>("GetOrders @email", new SqlParameter("@email", userInfo.Email)).ToListAsync()
 
-            };
+
+        };
             if (userInfo == null)
             {
                 return NotFound();

@@ -145,6 +145,15 @@ namespace _99meat.Models
             }
         }
     }
+    public class Favourite
+    {
+        [Key]
+        public int Id { get; set; }
+        public int ProductId { get; set; }
+        public int UserId { get; set; }
+        public string Email { get; set; }
+
+    }
 
     public class Product
     {
@@ -172,15 +181,7 @@ namespace _99meat.Models
         
     }
 
-    public class Favourite
-    {
-        [Key]
-        public int Id { get; set; }
-        public int  ProductId { get; set; }
-        public int UserId { get; set; }
-        public string Email { get; set; }
-
-    }
+   
 
     public class Order
     {
@@ -190,7 +191,7 @@ namespace _99meat.Models
         public string AddressId { get; set; }
         public string Email { get; set; }
         public DateTime OrderDate { get; set; }
-        public DateTime DeliveryTime { get; set; }
+        public string DeliveryTime { get; set; }
         public string modPayment { get; set; }
         public string OrderStatus { get; set; }
         public decimal OrderTotal { get; set; }
@@ -202,8 +203,7 @@ namespace _99meat.Models
     {
         [Key]
         public int Id { get; set; }
-        public Order  Order { get; set; }
-        public Product Product { get; set; }
+        public int ProductId { get; set; }
         public int Amount { get; set; }
         public int Quanity { get; set; }
         public decimal UnitPrice { get; set; }
@@ -220,7 +220,6 @@ namespace _99meat.Models
         public string Name { get; set; }
         public string CategoryDescription { get; set; }
         public string thumb { get; set; }
-
         public  List<Product> Items { get; set; }
 
     

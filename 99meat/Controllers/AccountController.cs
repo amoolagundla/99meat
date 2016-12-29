@@ -160,7 +160,7 @@ namespace _99meat.Controllers
                 return GetErrorResult(result);
             }
 
-            return Ok();
+            return Ok("success");
         }
 
         // POST api/Account/SetPassword

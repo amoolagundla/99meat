@@ -30813,6 +30813,37 @@ ion-slides[pager] .swiper-pagination {
   display: block !important;
 }
 
+.ion-footer {
+  bottom: 25px !important;
+}
+
+page-home ion-slides,
+.home ion-slides {
+  height: auto;
+}
+
+.card-background-page ion-card {
+  position: relative;
+  text-align: center;
+}
+
+.card-background-page .card-title {
+  position: absolute;
+  top: 36%;
+  font-size: 2.0em;
+  width: 100%;
+  font-weight: bold;
+  color: #fff;
+}
+
+.card-background-page .card-subtitle {
+  font-size: 1.0em;
+  position: absolute;
+  top: 52%;
+  width: 100%;
+  color: #fff;
+}
+
 page-cart .card,
 .cart .card {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -31020,6 +31051,10 @@ page-favorite .button-cart,
   line-height: 3em;
   font-size: 0.8em;
   padding: 1.2em 0.8em;
+}
+
+.ion-footer {
+  bottom: 25px !important;
 }
 
 page-home ion-slides,

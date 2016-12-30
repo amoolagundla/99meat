@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _99meat.Models
 {
@@ -16,9 +18,8 @@ namespace _99meat.Models
     {
         [Key]
         public int Id { get; set; }
-        public string PhoneNumber { get; set; }
-      
        
+
     }
     public class ChangePasswordBindingModel
     {
@@ -60,6 +61,12 @@ namespace _99meat.Models
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "PhoneNumber")]
         public string PhoneNumber { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
     }
 
     public class RegisterExternalBindingModel
@@ -107,6 +114,8 @@ namespace _99meat.Models
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
     public class Address
     {
@@ -136,6 +145,15 @@ namespace _99meat.Models
             }
         }
     }
+    public class Favourite
+    {
+        [Key]
+        public int Id { get; set; }
+        public int ProductId { get; set; }
+        public int UserId { get; set; }
+        public string Email { get; set; }
+
+    }
 
     public class Product
     {
@@ -144,27 +162,66 @@ namespace _99meat.Models
         public string ProdcutName { get; set; }
         public string ProductDesc { get; set; }
         public bool IsProductActive { get; set; }
+        public decimal Price { get; set; }
+        public string thumb { get; set; }
+        private int _offer = 0; 
+        public int Offer
+        {
+            get
+            {
+                return _offer;
+            }
+
+            set
+            {
+                _offer = value;
+            }
+        }
+        public   category category { get; set; }
         
     }
 
-    public class Favourite
-    {
-        [Key]
-        public int Id { get; set; }
-        public int  ProductId { get; set; }
-        public int UserId { get; set; }
-        public string Email { get; set; }
-
-    }
+   
 
     public class Order
     {
         [Key]
         public int Id { get; set; }
-        public int ProductId { get; set; }
         public string UserId { get; set; }
+        public string AddressId { get; set; }
         public string Email { get; set; }
         public DateTime OrderDate { get; set; }
-        public DateTime DeliveryTime { get; set; }
+        public string DeliveryTime { get; set; }
+        public string modPayment { get; set; }
+        public string OrderStatus { get; set; }
+        public decimal OrderTotal { get; set; }
+        public List<OrderDetail> OrderItems { get; set; }
+    }
+
+  
+    public class OrderDetail
+    {
+        [Key]
+        public int Id { get; set; }
+        public int ProductId { get; set; }
+        public int Amount { get; set; }
+        public int Quanity { get; set; }
+        public decimal UnitPrice { get; set; }
+    }
+
+    public class category
+    {
+        public category()
+            {
+            Items = new List<Product>();
+            }
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string CategoryDescription { get; set; }
+        public string thumb { get; set; }
+        public  List<Product> Items { get; set; }
+
+    
     }
 }

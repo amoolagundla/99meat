@@ -7,13 +7,13 @@ namespace _99meat.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Order : IMigrationMetadata
+    public sealed partial class order : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Order));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(order));
         
         string IMigrationMetadata.Id
         {
-            get { return "201612080508241_Order"; }
+            get { return "201612241643264_order"; }
         }
         
         string IMigrationMetadata.Source

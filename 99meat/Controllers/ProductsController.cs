@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using _99meat.Models;
+using System.Data.SqlClient;
 
 namespace _99meat.Controllers
 {
-    [Authorize]
     public class ProductsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -28,7 +28,7 @@ namespace _99meat.Controllers
         [ResponseType(typeof(Product))]
         public async Task<IHttpActionResult> GetProduct(int id)
         {
-            Product product = await db.Products.FindAsync(id);
+            List<Product> product = await db.Database.SqlQuery<Product>("GetProductByCategoryId @Id", new SqlParameter("Id", id)).ToListAsync();
             if (product == null)
             {
                 return NotFound();

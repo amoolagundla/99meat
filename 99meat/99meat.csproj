@@ -284,8 +284,10 @@
     <Content Include="assets\img\8.jpg" />
     <Content Include="assets\img\9.jpg" />
     <Content Include="assets\img\adam.jpg" />
+    <Content Include="assets\img\banner-bg.jpg" />
     <Content Include="assets\img\ben.png" />
     <Content Include="assets\img\bg.jpg" />
+    <Content Include="assets\img\bg1.jpg" />
     <Content Include="assets\img\categories\appetizes.png" />
     <Content Include="assets\img\categories\bugger.jpg" />
     <Content Include="assets\img\categories\desserts.png" />
@@ -336,6 +338,7 @@
     <Content Include="assets\img\logo.jpeg" />
     <Content Include="assets\img\max.png" />
     <Content Include="assets\img\mike.png" />
+    <Content Include="assets\img\new.jpg" />
     <Content Include="assets\img\people\adam.jpg" />
     <Content Include="assets\img\people\ben.png" />
     <Content Include="assets\img\people\canada.jpg" />
@@ -343,6 +346,8 @@
     <Content Include="assets\img\people\mike.png" />
     <Content Include="assets\img\people\perry.png" />
     <Content Include="assets\img\perry.png" />
+    <Content Include="assets\img\res01.jpg" />
+    <Content Include="assets\img\res02.jpg" />
     <Content Include="assets\img\Sheep Mutton with bone.jpg" />
     <Content Include="assets\img\Whole Chicken without skin curry cut.jpg" />
     <Content Include="build\main.css" />
@@ -391,6 +396,19 @@
     <Content Include="assets\manifest.json" />
     <Content Include="build\main.js.map" />
     <Content Include="assets\icon\Thumbs.db" />
+    <Content Include="assets\fonts\ionicons.scss" />
+    <Content Include="assets\fonts\noto-sans-bold.ttf" />
+    <Content Include="assets\fonts\noto-sans-regular.ttf" />
+    <Content Include="assets\fonts\noto-sans.scss" />
+    <Content Include="assets\fonts\roboto-bold.ttf" />
+    <Content Include="assets\fonts\roboto-bold.woff" />
+    <Content Include="assets\fonts\roboto-light.ttf" />
+    <Content Include="assets\fonts\roboto-light.woff" />
+    <Content Include="assets\fonts\roboto-medium.ttf" />
+    <Content Include="assets\fonts\roboto-medium.woff" />
+    <Content Include="assets\fonts\roboto-regular.ttf" />
+    <Content Include="assets\fonts\roboto-regular.woff" />
+    <Content Include="assets\fonts\roboto.scss" />
     <None Include="Properties\PublishProfiles\99Pumba - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\99Pumba - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

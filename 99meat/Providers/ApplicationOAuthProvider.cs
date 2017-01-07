@@ -10,6 +10,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using _99meat.Models;
+using Facebook;
 
 namespace _99meat.Providers
 {
@@ -93,6 +94,70 @@ namespace _99meat.Providers
                 { "userName", userName }
             };
             return new AuthenticationProperties(data);
+        }
+
+        public override async Task GrantCustomExtension(OAuthGrantCustomExtensionContext context)
+        {
+            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+
+            if (context.GrantType.ToLower() == "facebook")
+                {
+                    var fbClient = new FacebookClient();
+                    fbClient.AccessToken = context.Parameters.Get("accesstoken").ToString();
+                    fbClient.AppId = "1835538836698571";
+                    fbClient.AppSecret = "c7a2f4ddae439636757264eb72a25fba";
+                    dynamic response = await fbClient.GetTaskAsync("me", new { fields = "email, first_name, last_name" });
+
+                    string id = response.id;
+                    string email = response.email;
+                    string firstname = response.first_name;
+                    string lastname = response.last_name;
+
+                 
+                    var nuser = new ApplicationUser()
+                    {
+                        UserName = email,
+                        Email = email,FirstName=firstname,LastName=lastname
+
+                    };
+
+
+                    ApplicationUser user = userManager.FindByEmail(email);
+
+                    if (user != null)
+                    {
+
+
+                        ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
+                           OAuthDefaults.AuthenticationType);
+                        ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
+                            CookieAuthenticationDefaults.AuthenticationType);
+
+                        AuthenticationProperties properties = CreateProperties(user.UserName);
+                        AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+                        context.Validated(ticket);
+                        context.Request.Context.Authentication.SignIn(cookiesIdentity);
+                    }
+                    else
+                    {
+
+                        var newUSer = await userManager.CreateAsync(nuser);
+
+                        var fUSer = userManager.FindByEmail(email);
+                        ClaimsIdentity oAuthIdentity = await fUSer.GenerateUserIdentityAsync(userManager,
+                                OAuthDefaults.AuthenticationType);
+                        ClaimsIdentity cookiesIdentity = await fUSer.GenerateUserIdentityAsync(userManager,
+                            CookieAuthenticationDefaults.AuthenticationType);
+
+                        AuthenticationProperties properties = CreateProperties(fUSer.UserName);
+                        AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+                        context.Validated(ticket);
+                        context.Request.Context.Authentication.SignIn(cookiesIdentity);
+                    }
+                }
+           
+            return;
+            
         }
     }
 }

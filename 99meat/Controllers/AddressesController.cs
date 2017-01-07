@@ -55,7 +55,23 @@ namespace _99meat.Controllers
             return (IQueryable<Address>)address.ToList().FindAll(x => x.UserName.ToLower().ToString().Equals(userName));
         }
 
+        // GET: api/Addresses/5
+         [HttpPost]
+        [AllowAnonymous]
+        [Route("api/Addresses/Login")]
+        public IHttpActionResult Login(string redirect_uri,string state,string token)
+        {
+            try
+            {
+               
 
+            }
+            catch(Exception ex)
+            {
+                return Unauthorized();
+            }
+            return Ok();
+        }
 
 
         // PUT: api/Addresses/5

@@ -39,6 +39,7 @@ namespace _99meat.Models
         public System.Data.Entity.DbSet<_99meat.Models.Product> Products { get; set; }
         public System.Data.Entity.DbSet<_99meat.Models.Order> Orders { get; set; }
         public System.Data.Entity.DbSet<_99meat.Models.category> categories { get; set; }
+        public System.Data.Entity.DbSet<_99meat.Models.FacebookTokens> facebookTokens { get; set; }
     }
 
    

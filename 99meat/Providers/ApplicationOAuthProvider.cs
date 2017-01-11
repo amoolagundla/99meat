@@ -102,22 +102,27 @@ namespace _99meat.Providers
 
             if (context.GrantType.ToLower() == "facebook")
                 {
-                    var fbClient = new FacebookClient();
-                    fbClient.AccessToken = context.Parameters.Get("accesstoken").ToString();
-                    fbClient.AppId = "1835538836698571";
-                    fbClient.AppSecret = "c7a2f4ddae439636757264eb72a25fba";
-                    dynamic response = await fbClient.GetTaskAsync("me", new { fields = "email, first_name, last_name" });
+                var fb = new FacebookClient("1835538836698571|XsHdA0c38xZZArNW7MnrYlQMiIk");
+                dynamic result = fb.Get("debug_token", new { input_token = context.Parameters.Get("accesstoken").ToString() });
+                var appId = result.data.app_id;
+                var isValid = result.data.is_valid;
+                var application = result.data.application;
+                var userId = result.data.user_id;
+                var expiresAt = result.data.expires_at;
+                var scopes = result.data.scopes;
+
+
+                dynamic response = await fb.GetTaskAsync("/me?fields=email,gender", new { access_token = context.Parameters.Get("accesstoken").ToString() });
 
                     string id = response.id;
                     string email = response.email;
-                    string firstname = response.first_name;
-                    string lastname = response.last_name;
+                   
 
                  
                     var nuser = new ApplicationUser()
                     {
                         UserName = email,
-                        Email = email,FirstName=firstname,LastName=lastname
+                        Email = email
 
                     };
 

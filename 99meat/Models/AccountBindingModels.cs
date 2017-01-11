@@ -224,4 +224,11 @@ namespace _99meat.Models
 
     
     }
+
+    public class FacebookTokens
+    {
+        [Key]
+        public int ID { get; set; }
+        public string token { get; set; }
+    }
 }

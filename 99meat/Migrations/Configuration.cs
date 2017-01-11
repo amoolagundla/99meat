@@ -9,7 +9,7 @@ namespace _99meat.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(_99meat.Models.ApplicationDbContext context)

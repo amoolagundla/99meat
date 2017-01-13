@@ -29,18 +29,13 @@ namespace _99meat.ChatHub
         {
             if (dic.ContainsKey(name))
             {
-                Clients.Caller.differentName();
+                string s = dic.FirstOrDefault(x => x.Key == name).Value;
+              
+                dic.TryUpdate(name, id,s);               
             }
             else
             {
                 dic.TryAdd(name, id);
-
-                foreach (KeyValuePair<String, String> entry in dic)
-                {
-                    Clients.Caller.online(entry.Key);
-                }
-
-                Clients.Others.enters(name);
             }
         }
 

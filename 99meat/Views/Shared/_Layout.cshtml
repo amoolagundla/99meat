@@ -78,12 +78,12 @@
                 chat.server.notify($('#displayname').val(), $.connection.hub.id);
 
                 $('#sendmessage').click(function () {
-                    if ($("#users").val() == "All") {
+                    if ($("#user").val() == "All") {
                         // Call the Send method on the hub.
                         chat.server.send($('#displayname').val(), $('#message').val());
                     }
                     else {
-                        chat.server.sendToSpecific($('#displayname').val(), $('#message').val(), $("#users").val());
+                        chat.server.sendToSpecific($('#displayname').val(), $('#message').val(), $("#user").val());
                     }
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
@@ -103,7 +103,7 @@
     </div>
     <div style="height: 19%; border-top: double black; background-color: lightgray">
         <div style="float: left; height: 90%; top: 10%; position: relative;">
-            <textarea spellcheck="true" id="message" style="width: 625px; height: 80%"></textarea>
+            <textarea spellcheck="true" id="message" style="width: 625px; height: 80%"></textarea><textarea spellcheck="true" id="user" style="width: 625px; height: 80%"></textarea>
         </div>
         <div style="position: relative; top: 30%; float: left;">
             <input type="button" id="sendmessage" value="Send" />

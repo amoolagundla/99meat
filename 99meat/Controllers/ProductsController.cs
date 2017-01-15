@@ -37,6 +37,20 @@ namespace _99meat.Controllers
             return Ok(product);
         }
 
+        // GET: api/Products/5
+        [ResponseType(typeof(List<Product>))]
+        [Route("api/Products/GetByProductName/{name}")]
+        public async Task<IHttpActionResult> GetByProductName(string name)
+        {
+            var product = db.Products.Where(x => x.ProdcutName.ToString().Contains(name) || x.ProductDesc.ToString().Contains(name)).ToList();
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
+        }
+
         // PUT: api/Products/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutProduct(int id, Product product)

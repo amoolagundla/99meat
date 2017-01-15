@@ -197,6 +197,7 @@ namespace _99meat.Models
                 _offer = value;
             }
         }
+   
         public   category category { get; set; }
         
     }

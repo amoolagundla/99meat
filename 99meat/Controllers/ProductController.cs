@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using _99meat.Models;
 using System.Data.SqlClient;
+using System.Data.Entity.Infrastructure;
 
 namespace _99meat.Controllers
 {
@@ -19,17 +20,18 @@ namespace _99meat.Controllers
         // GET: Product
         public async Task<ActionResult> Index()
         {
-            return View(await db.Products.ToListAsync());
+            var list = await db.Products.Include("category").ToListAsync();
+            return View(list);
         }
 
         // GET: Product/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public  ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            List<Product> product = await db.Database.SqlQuery<Product>("GetProductByCategoryId @Id", new SqlParameter("Id", id)).ToListAsync();
+            var product =  db.Products.FirstOrDefault(c=>c.Id==id);
             if (product == null)
             {
                 return HttpNotFound();
@@ -40,38 +42,58 @@ namespace _99meat.Controllers
         // GET: Product/Create
         public ActionResult Create()
         {
+            PopulateCategoryDropDownList();
             return View();
         }
-
+        private void PopulateCategoryDropDownList(object selectedCategory = null)
+        {
+            var departmentsQuery = from d in db.categories
+                                   orderby d.Name
+                                   select d;
+            ViewBag.category = new SelectList(db.categories, "Id", "Name");
+        }
         // POST: Product/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,ProdcutName,ProductDesc,IsProductActive,Price,thumb,Offer")] Product product)
+        public ActionResult Create([Bind(Include = "Id,ProdcutName,ProductDesc,IsProductActive,Price,thumb,Offer,category")] Product product)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Products.Add(product);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                string catId = ModelState.Values.ToList()[6].Value.AttemptedValue.ToString();
+                var cat = from d in db.categories
+                          where d.Id.ToString().Equals(catId)
+                                       select d;
+                product.category = cat.FirstOrDefault();
+               
+                    db.Products.Add(product);
+                     db.SaveChanges();
+                    return RedirectToAction("Index");
+                           
             }
-
+            catch (RetryLimitExceededException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+            PopulateCategoryDropDownList(product.category);
             return View(product);
         }
 
         // GET: Product/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public  ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = await db.Products.FindAsync(id);
+            Product product =  db.Products.Include("category").ToList().Find(x=>x.Id==id);
             if (product == null)
             {
                 return HttpNotFound();
             }
+            PopulateCategoryDropDownList(product.category.Id);
             return View(product);
         }
 

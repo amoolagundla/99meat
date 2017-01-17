@@ -50,7 +50,7 @@ namespace _99meat.Controllers
             var departmentsQuery = from d in db.categories
                                    orderby d.Name
                                    select d;
-            ViewBag.category = new SelectList(db.categories, "Id", "Name");
+            ViewBag.category = new SelectList(db.categories, "Id", "Name", selectedCategory);
         }
         // POST: Product/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -93,7 +93,7 @@ namespace _99meat.Controllers
             {
                 return HttpNotFound();
             }
-            PopulateCategoryDropDownList(product.category.Id);
+            PopulateCategoryDropDownList(product.category);
             return View(product);
         }
 
@@ -102,13 +102,24 @@ namespace _99meat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,ProdcutName,ProductDesc,IsProductActive,Price,thumb,Offer")] Product product)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,ProdcutName,ProductDesc,IsProductActive,Price,thumb,Offer,category")] Product product)
         {
-            if (ModelState.IsValid)
+            try
             {
+
+                string catId = ModelState.Values.ToList()[6].Value.AttemptedValue.ToString();
+                var cat = from d in db.categories
+                          where d.Id.ToString().Equals(catId)
+                          select d;
+                product.category = cat.FirstOrDefault();
                 db.Entry(product).State = System.Data.Entity.EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
+            }
+            catch (RetryLimitExceededException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
             return View(product);
         }

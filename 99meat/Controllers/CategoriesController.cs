@@ -21,7 +21,7 @@ namespace _99meat.Controllers
         public IHttpActionResult Getcategories()
         {
             var cat = db.categories.ToList<category>();
-            var products = db.Products.ToList<Product>();
+            var products = db.Products.Where(x=>x.IsProductActive).ToList<Product>();
 
             foreach (var c in cat)
             {

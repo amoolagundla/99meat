@@ -42,7 +42,7 @@ namespace _99meat.Controllers
         [Route("api/Products/GetByProductName/{name}")]
         public async Task<IHttpActionResult> GetByProductName(string name)
         {
-            var product = db.Products.Where(x => x.ProdcutName.ToString().Contains(name) || x.ProductDesc.ToString().Contains(name)).ToList();
+            var product = db.Products.Include("category").Where(x => ((x.ProdcutName.ToString().Contains(name) || x.ProductDesc.ToString().Contains(name) || x.category.CategoryDescription.ToString().Contains(name) || x.category.Name.ToString().Contains(name) ) && x.IsProductActive)).ToList();
             if (product == null)
             {
                 return NotFound();

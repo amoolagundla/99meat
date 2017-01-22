@@ -11,6 +11,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using _99meat.Models;
 using Facebook;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace _99meat.Providers
 {
@@ -99,9 +101,9 @@ namespace _99meat.Providers
         public override async Task GrantCustomExtension(OAuthGrantCustomExtensionContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
+            string email = string.Empty;
             if (context.GrantType.ToLower() == "facebook")
-                {
+            {
                 var fb = new FacebookClient("1835538836698571|XsHdA0c38xZZArNW7MnrYlQMiIk");
                 dynamic result = fb.Get("debug_token", new { input_token = context.Parameters.Get("accesstoken").ToString() });
                 var appId = result.data.app_id;
@@ -114,55 +116,86 @@ namespace _99meat.Providers
 
                 dynamic response = await fb.GetTaskAsync("/me?fields=email,gender", new { access_token = context.Parameters.Get("accesstoken").ToString() });
 
-                    string id = response.id;
-                    string email = response.email;
-                   
+                string id = response.id;
+                email = response.email;
 
-                 
-                    var nuser = new ApplicationUser()
+
+            }
+
+            else if (context.GrantType.ToLower() == "google")
+            {
+
+
+                var userdetails = Newtonsoft.Json.JsonConvert.DeserializeObject<GmailAccess>(context.Parameters.Get("accesstoken").ToString());
+
+
+                using (var clients = new HttpClient())
+                {
+                    clients.BaseAddress = new Uri("https://accounts.google.com/");
+                    var content = new FormUrlEncodedContent(new[]
                     {
-                        UserName = email,
-                        Email = email
-
-                    };
-
-
-                    ApplicationUser user = userManager.FindByEmail(email);
-
-                    if (user != null)
-                    {
-
-
-                        ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
-                           OAuthDefaults.AuthenticationType);
-                        ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
-                            CookieAuthenticationDefaults.AuthenticationType);
-
-                        AuthenticationProperties properties = CreateProperties(user.UserName);
-                        AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
-                        context.Validated(ticket);
-                        context.Request.Context.Authentication.SignIn(cookiesIdentity);
-                    }
-                    else
-                    {
-
-                        var newUSer = await userManager.CreateAsync(nuser);
-
-                        var fUSer = userManager.FindByEmail(email);
-                        ClaimsIdentity oAuthIdentity = await fUSer.GenerateUserIdentityAsync(userManager,
-                                OAuthDefaults.AuthenticationType);
-                        ClaimsIdentity cookiesIdentity = await fUSer.GenerateUserIdentityAsync(userManager,
-                            CookieAuthenticationDefaults.AuthenticationType);
-
-                        AuthenticationProperties properties = CreateProperties(fUSer.UserName);
-                        AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
-                        context.Validated(ticket);
-                        context.Request.Context.Authentication.SignIn(cookiesIdentity);
-                    }
+                new KeyValuePair<string, string>("client_id", "794768984490-keg257msut0vkmlfp92o0a68o6i36q41.apps.googleusercontent.com"),
+                new KeyValuePair<string, string>("client_secret", "KqzFGztmh8rYGFTS29ge8qUr"),          
+                new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                 new KeyValuePair<string, string>("code", userdetails.serverAuthCode)
+            });
+                    var result = await clients.PostAsync("o/oauth2/token", content);
+                    string resultContent = await result.Content.ReadAsStringAsync();
+                    var userdet=Newtonsoft.Json.JsonConvert.DeserializeObject< PrasedToken>(resultContent);
+                    if(!string.IsNullOrEmpty(userdet.access_token))
+                    email = userdetails.email;
                 }
-           
+
+               
+              
+            }
+            if (string.IsNullOrEmpty(email))
+            {
+                return;
+            }
+            var nuser = new ApplicationUser()
+            {
+                UserName = email,
+                Email = email
+
+            };
+
+
+            ApplicationUser user = userManager.FindByEmail(email);
+
+            if (user != null)
+            {
+
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
+                   OAuthDefaults.AuthenticationType);
+                ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
+                    CookieAuthenticationDefaults.AuthenticationType);
+
+                AuthenticationProperties properties = CreateProperties(user.UserName);
+                AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+                context.Validated(ticket);
+                context.Request.Context.Authentication.SignIn(cookiesIdentity);
+            }
+            else
+            {
+
+                var newUSer = await userManager.CreateAsync(nuser);
+
+                var fUSer = userManager.FindByEmail(email);
+                ClaimsIdentity oAuthIdentity = await fUSer.GenerateUserIdentityAsync(userManager,
+                        OAuthDefaults.AuthenticationType);
+                ClaimsIdentity cookiesIdentity = await fUSer.GenerateUserIdentityAsync(userManager,
+                    CookieAuthenticationDefaults.AuthenticationType);
+
+                AuthenticationProperties properties = CreateProperties(fUSer.UserName);
+                AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+                context.Validated(ticket);
+                context.Request.Context.Authentication.SignIn(cookiesIdentity);
+            }
+
             return;
-            
+
         }
     }
 }

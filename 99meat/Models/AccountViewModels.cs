@@ -61,4 +61,23 @@ namespace _99meat.Models
 
         public string ProviderKey { get; set; }
     }
+
+    public class PrasedToken
+    {
+        public string access_token { get; set; }
+        public int expires_in { get; set; }
+        public string id_token { get; set; }
+        public string token_type { get; set; }
+    }
+    public class GmailAccess
+    {
+        public string email { get; set; }
+        public string idToken { get; set; }
+        public string serverAuthCode { get; set; }
+        public string userId { get; set; }
+        public string displayName { get; set; }
+        public string familyName { get; set; }
+        public string givenName { get; set; }
+        public string imageUrl { get; set; }
+    }
 }

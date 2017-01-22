@@ -81,11 +81,11 @@ namespace _99meat
                 appId: "1835538836698571",
                 appSecret: "c7a2f4ddae439636757264eb72a25fba");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "794768984490-keg257msut0vkmlfp92o0a68o6i36q41.apps.googleusercontent.com",
+                ClientSecret = "KqzFGztmh8rYGFTS29ge8qUr"
+            });
         }
     }
 }

@@ -11,107 +11,107 @@ using _99meat.Models;
 
 namespace _99meat.Controllers
 {
-    public class OrderController : Controller
+    public class OrderDetailsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Order
+        // GET: OrderDetails
         public async Task<ActionResult> Index()
         {
-            return View(await db.Orders.Include("OrderItems").ToListAsync());
+            return View(await db.OrderDetails.ToListAsync());
         }
 
-        // GET: Order/Details/5
+        // GET: OrderDetails/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = await db.Orders.Include("OrderItems").FirstOrDefaultAsync(x => x.Id == id);
-            if (order == null)
+            OrderDetail orderDetail = await db.OrderDetails.FindAsync(id);
+            if (orderDetail == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(orderDetail);
         }
 
-        // GET: Order/Create
+        // GET: OrderDetails/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Order/Create
+        // POST: OrderDetails/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,UserId,AddressId,Email,OrderDate,DeliveryTime,modPayment,OrderStatus,OrderTotal")] Order order)
+        public async Task<ActionResult> Create([Bind(Include = "Id,ProductId,Amount,Quanity,UnitPrice")] OrderDetail orderDetail)
         {
             if (ModelState.IsValid)
             {
-                db.Orders.Add(order);
+                db.OrderDetails.Add(orderDetail);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(order);
+            return View(orderDetail);
         }
 
-        // GET: Order/Edit/5
+        // GET: OrderDetails/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = await db.Orders.FindAsync(id);
-            if (order == null)
+            OrderDetail orderDetail = await db.OrderDetails.FindAsync(id);
+            if (orderDetail == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(orderDetail);
         }
 
-        // POST: Order/Edit/5
+        // POST: OrderDetails/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,AddressId,Email,OrderDate,DeliveryTime,modPayment,OrderStatus,OrderTotal")] Order order)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,ProductId,Amount,Quanity,UnitPrice")] OrderDetail orderDetail)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(order).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(orderDetail).State = System.Data.Entity.EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(order);
+            return View(orderDetail);
         }
 
-        // GET: Order/Delete/5
+        // GET: OrderDetails/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = await db.Orders.FindAsync(id);
-            if (order == null)
+            OrderDetail orderDetail = await db.OrderDetails.FindAsync(id);
+            if (orderDetail == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(orderDetail);
         }
 
-        // POST: Order/Delete/5
+        // POST: OrderDetails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Order order = await db.Orders.FindAsync(id);
-            db.Orders.Remove(order);
+            OrderDetail orderDetail = await db.OrderDetails.FindAsync(id);
+            db.OrderDetails.Remove(orderDetail);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

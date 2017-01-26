@@ -151,7 +151,6 @@ namespace _99meat.Models
         public string PostalCode { get; set; }
         public string UserName { get; set; }
         public bool IsDefault { get; set; }
-
         public bool IsActive
         {
             get

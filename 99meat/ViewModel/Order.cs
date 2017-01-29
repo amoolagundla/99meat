@@ -18,6 +18,26 @@ namespace _99meat.ViewModel
         public string OrderStatus { get; set; }
         public string thumb { get; set; }
     }
+
+    public class UserOrderViewModel
+    {
+
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public decimal Total { get; set; }
+        public string PaymentMethod { get; set; }
+        public string OrderAddress { get; set; }
+        public string OrderStatus { get; set; }
+        public int OrderId { get; set; }
+    }
+    public class UserOrderDetailViewModel
+    {
+        public string ProductName { get; set; }
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public int ProductAmount { get; set; }
+    }
+
     public class Order
     {
         [Required]

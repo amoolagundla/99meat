@@ -36,6 +36,22 @@ namespace _99meat.Controllers
             return userInfo;
         }
 
+        [HttpGet]
+        [Route("api/Orders/GetUserOrders/{email?}")]
+        public List<UserOrderViewModel> GetUserOrders(string email = null)
+        {
+            var userInfo = db.Database.SqlQuery<UserOrderViewModel>("GetUserOrders @email", new SqlParameter("@email", email == null ? (object)DBNull.Value : email)).ToList<UserOrderViewModel>();
+
+            return userInfo;
+        }
+        [HttpGet]
+        [Route("api/Orders/GetUserOrderDetails/{email?}")]
+        public List<UserOrderDetailViewModel> GetUserOrderDetails(string email = null)
+        {
+            var userInfo = db.Database.SqlQuery<UserOrderDetailViewModel>("GetUserOrderDetails @Id", new SqlParameter("@Id", email == null ? (object)DBNull.Value : email)).ToList<UserOrderDetailViewModel>();
+            return userInfo;
+        }
+
         // GET: api/Orders/5
         [ResponseType(typeof(Models.Order))]
         public async Task<IHttpActionResult> GetOrder(int id)

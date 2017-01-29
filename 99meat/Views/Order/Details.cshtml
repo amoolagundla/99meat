@@ -1,4 +1,4 @@
-﻿@model _99meat.Models.Order
+﻿@model IEnumerable<_99meat.ViewModel.UserOrderDetailViewModel>
 
 @{
     ViewBag.Title = "Details";
@@ -6,78 +6,46 @@
 }
 
 <h2>Details</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </th>
 
-<div>
-    <h4>Order</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductAmount)
+        </th>
+    </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AddressId)
-        </dt>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductAmount)
+            </td>
+            
+        </tr>
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.AddressId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OrderDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DeliveryTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DeliveryTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.modPayment)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.modPayment)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderStatus)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OrderStatus)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderTotal)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OrderTotal)
-        </dd>
-
-    </dl>
-</div>
+</table>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+  
+ 
     @Html.ActionLink("Back to List", "Index")
 </p>

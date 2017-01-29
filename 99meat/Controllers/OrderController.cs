@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using _99meat.Models;
+using _99meat.ViewModel;
+using System.Data.SqlClient;
 
 namespace _99meat.Controllers
 {
@@ -18,22 +20,22 @@ namespace _99meat.Controllers
         // GET: Order
         public async Task<ActionResult> Index()
         {
-            return View(await db.Orders.Include("OrderItems").ToListAsync());
+            return View(db.Database.SqlQuery<UserOrderViewModel>("GetUserOrders @email", new SqlParameter("@email", (object)DBNull.Value)).ToList<UserOrderViewModel>());
         }
 
         // GET: Order/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public  ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = await db.Orders.Include("OrderItems").FirstOrDefaultAsync(x => x.Id == id);
-            if (order == null)
+            var userInfo = db.Database.SqlQuery<UserOrderDetailViewModel>("GetUserOrderDetails @Id", new SqlParameter("@Id", id == null ? (object)DBNull.Value : id)).ToList<UserOrderDetailViewModel>();
+            if (userInfo == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(userInfo);
         }
 
         // GET: Order/Create
@@ -47,7 +49,7 @@ namespace _99meat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,UserId,AddressId,Email,OrderDate,DeliveryTime,modPayment,OrderStatus,OrderTotal")] Order order)
+        public async Task<ActionResult> Create([Bind(Include = "Id,UserId,AddressId,Email,OrderDate,DeliveryTime,modPayment,OrderStatus,OrderTotal")] Models.Order order)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +68,7 @@ namespace _99meat.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = await db.Orders.FindAsync(id);
+            Models.Order order = await db.Orders.FindAsync(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -79,7 +81,7 @@ namespace _99meat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,AddressId,Email,OrderDate,DeliveryTime,modPayment,OrderStatus,OrderTotal")] Order order)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,UserId,AddressId,Email,OrderDate,DeliveryTime,modPayment,OrderStatus,OrderTotal")] Models.Order order)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +99,7 @@ namespace _99meat.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = await db.Orders.FindAsync(id);
+            Models.Order order = await db.Orders.FindAsync(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -110,7 +112,7 @@ namespace _99meat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Order order = await db.Orders.FindAsync(id);
+            Models.Order order = await db.Orders.FindAsync(id);
             db.Orders.Remove(order);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

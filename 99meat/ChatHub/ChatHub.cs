@@ -24,18 +24,36 @@ namespace _99meat.ChatHub
             Clients.Caller.broadcastMessage(name, message);
             Clients.Client(dic[to]).broadcastMessage(name, message);
         }
+        //public void Notify(string name, string id)
+        //{
+        //    if (dic.ContainsKey(name))
+        //    {
+        //        Clients.Caller.differentName();
+        //    }
+        //    else
+        //    {
+        //        dic.TryAdd(name, id);
 
+        //        foreach (KeyValuePair<String, String> entry in dic)
+        //        {
+        //            Clients.Caller.online(entry.Key);
+        //        }
+
+        //        Clients.Others.enters(name);
+        //    }
+        //}
         public void Notify(string name, string id)
         {
             if (dic.ContainsKey(name))
             {
                 string s = dic.FirstOrDefault(x => x.Key == name).Value;
-              
-                dic.TryUpdate(name, id,s);               
+
+                dic.TryUpdate(name, id, s);
             }
             else
             {
                 dic.TryAdd(name, id);
+                Clients.Others.enters(name);
             }
         }
 

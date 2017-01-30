@@ -49,6 +49,7 @@ namespace _99meat.ChatHub
                 string s = dic.FirstOrDefault(x => x.Key == name).Value;
 
                 dic.TryUpdate(name, id, s);
+                Clients.Others.enters(name);
             }
             else
             {

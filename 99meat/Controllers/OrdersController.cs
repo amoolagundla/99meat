@@ -31,7 +31,7 @@ namespace _99meat.Controllers
         [Route("api/Orders/GetOrders/{email?}")]
         public List<OrderViewModel> GetOrders(string email = null)
         {
-            var userInfo = db.Database.SqlQuery<OrderViewModel>("GetOrders @email", new SqlParameter("@email", email == null ? (object)DBNull.Value : email)).ToList<OrderViewModel>();
+            var userInfo = db.Database.SqlQuery<OrderViewModel>("GetOrders @email", new SqlParameter("@email", email == "null" ? (object)DBNull.Value : email)).ToList<OrderViewModel>();
 
             return userInfo;
         }

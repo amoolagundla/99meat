@@ -324,6 +324,7 @@
     <Compile Include="ViewModel\Order.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="assets\fonts\ionicons.svg" />
     <Content Include="assets\icon\favicon.ico" />
@@ -342,6 +343,7 @@
     <Content Include="assets\img\adam.jpg" />
     <Content Include="assets\img\banner-bg.jpg" />
     <Content Include="assets\img\ben.png" />
+    <Content Include="assets\img\beverages.jpg" />
     <Content Include="assets\img\bg.jpg" />
     <Content Include="assets\img\bg1.jpg" />
     <Content Include="assets\img\categories\appetizes.png" />
@@ -364,7 +366,9 @@
     <Content Include="assets\img\categories\sides.png" />
     <Content Include="assets\img\categories\sushi.jpg" />
     <Content Include="assets\img\Chicken Leg pieces without skin.jpg" />
+    <Content Include="assets\img\Dosai.jpg" />
     <Content Include="assets\img\icon.jpg" />
+    <Content Include="assets\img\icon.png" />
     <Content Include="assets\img\ionic.png" />
     <Content Include="assets\img\items\1.jpg" />
     <Content Include="assets\img\items\10.jpg" />
@@ -393,7 +397,9 @@
     <Content Include="assets\img\items\zuppa.jpg" />
     <Content Include="assets\img\logo.jpeg" />
     <Content Include="assets\img\max.png" />
+    <Content Include="assets\img\MeatEntree.jpg" />
     <Content Include="assets\img\mike.png" />
+    <Content Include="assets\img\Naan.jpg" />
     <Content Include="assets\img\new.jpg" />
     <Content Include="assets\img\people\adam.jpg" />
     <Content Include="assets\img\people\ben.png" />
@@ -402,6 +408,7 @@
     <Content Include="assets\img\people\mike.png" />
     <Content Include="assets\img\people\perry.png" />
     <Content Include="assets\img\perry.png" />
+    <Content Include="assets\img\Platter.jpg" />
     <Content Include="assets\img\res01.jpg" />
     <Content Include="assets\img\res02.jpg" />
     <Content Include="assets\img\Sheep Mutton with bone.jpg" />

@@ -25,7 +25,7 @@
             var chat = $.connection.chatHub;
 
             // Get the user name.
-            $('#displayname').val(prompt('Enter your name:', ''));
+            $('#displayname').val('sys');
             chat.client.differentName = function (name) {
                 // Prompts for different user name
                 $('#displayname').val(prompt('Please enter different username:', ''));
@@ -76,7 +76,7 @@
                         chat.server.send($('#displayname').val(), $('#message').val());
                     }
                     else {
-                        chat.server.sendToSpecific($('#displayname').val(), $('#message').val(), $("#users").val());
+                        chat.server.sendToSpecific($('#displayname').val(), $('#message').val(), $("#user").val());
                     }
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
@@ -96,7 +96,7 @@
     </div>
     <div style="height: 19%; border-top: double black; background-color: lightgray">
         <div style="float: left; height: 90%; top: 10%; position: relative;">
-            <textarea spellcheck="true" id="message" style="width: 625px; height: 80%"></textarea>
+            <textarea spellcheck="true" id="message" style="width: 625px; height: 80%"></textarea><input type="text"  id="user" />
         </div>
         <div style="position: relative; top: 30%; float: left;">
             <input type="button" id="sendmessage" value="Send" />

@@ -20,7 +20,7 @@ namespace _99meat.Controllers
         // GET: api/Categories
         public IHttpActionResult Getcategories()
         {
-            var cat = db.categories.ToList<category>();
+            var cat = db.categories.ToList<category>().OrderBy(x=>x.Name);
             var products = db.Products.Where(x=>x.IsProductActive).ToList<Product>();
 
             foreach (var c in cat)

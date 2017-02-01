@@ -55,8 +55,27 @@ namespace _99meat.Controllers
             return (IQueryable<Address>)address.ToList().FindAll(x => x.UserName.ToLower().ToString().Equals(userName));
         }
 
+
         // GET: api/Addresses/5
-         [HttpPost]
+        [ResponseType(typeof(string))]
+        [Route("api/Addresses/GetToAndFroAddress/{Is}")]
+        public  async Task<IHttpActionResult> GetToAndFroAddress(int Id)
+        {
+            var userInfo = await db.Database.SqlQuery<string>("GetToAndFroAddress @Id", new SqlParameter("@Id", Id)).FirstOrDefaultAsync();
+
+            if (userInfo == null)
+            {
+                return InternalServerError();
+            }
+
+            return  Ok("http://maps.google.com/maps?daddr=" + userInfo + "&saddr=");
+        }
+
+
+
+
+        // GET: api/Addresses/5
+        [HttpPost]
         [AllowAnonymous]
         [Route("api/Addresses/Login")]
         public IHttpActionResult Login(string redirect_uri,string state,string token)

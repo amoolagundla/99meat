@@ -36,6 +36,7 @@ namespace _99meat.ViewModel
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public int ProductAmount { get; set; }
+        public string AddressId { get; set; }
     }
 
     public class Order

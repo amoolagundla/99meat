@@ -6,6 +6,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _99meat.Models
 {
+    public enum PaymentEnum
+    {
+        CashOnDelievery=0,
+        AlreadyPaid=1,
+        NotPaid=2
+    }
+
+    public enum OrderStatus
+    {
+        OrderPlaced=0,
+        OrderCooked=1,
+        StartedToDestination=2,
+        ReadyToPickup=3
+    }
     // Models used as parameters to AccountController actions.
     public class Audience
     {

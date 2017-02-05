@@ -21,7 +21,7 @@ namespace _99meat.ViewModel
 
     public class UserOrderViewModel
     {
-
+        private string _payment = Enum.Parse(typeof(Models.PaymentEnum), Models.PaymentEnum.NotPaid.ToString()).ToString();
         public string Email { get; set; }
         public string Name { get; set; }
         public decimal Total { get; set; }
@@ -29,6 +29,19 @@ namespace _99meat.ViewModel
         public string OrderAddress { get; set; }
         public string OrderStatus { get; set; }
         public int OrderId { get; set; }
+
+        public string Payment
+        {
+            get
+            {
+                return _payment;
+            }
+
+            set
+            {
+                Payment = Enum.Parse(typeof(Models.PaymentEnum), PaymentMethod).ToString();
+            }
+        }
     }
     public class UserOrderDetailViewModel
     {

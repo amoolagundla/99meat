@@ -113,7 +113,7 @@ namespace _99meat.Controllers
             _order.AddressId = order.AddressId.ToString();
             _order.OrderTotal = order.Cart.ToList().Sum(x => x.Quantity * x.UnitPrice);
             _order.UserId = User.Identity.Name.ToString();
-            _order.OrderStatus = "Order Placed";
+            _order.OrderStatus = OrderStatus.OrderPlaced.ToString();
 
             _order.DeliveryTime = DateTime.Parse(order.DeliveryTime).TimeOfDay.ToString();
             _order.modPayment = order.PaymentMethod.ToString();

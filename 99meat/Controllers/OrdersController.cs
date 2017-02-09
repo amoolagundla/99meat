@@ -52,6 +52,36 @@ namespace _99meat.Controllers
             return userInfo;
         }
 
+        [HttpGet]
+        [Route("api/Orders/UpdateOrder/{id}/{status}")]
+        public async Task<IHttpActionResult> UpdateOrder(int id ,int status)
+        {
+            Models.Order order = await db.Orders.FindAsync(id);
+            order.OrderStatus = ((_99meat.Models.OrderStatus)status).ToString();
+            db.Entry(order).State = System.Data.Entity.EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+                //var user = User.Identity.Name;
+                //PushTokens pushTokens = db.PushTokens.Where(x => x.Email.ToString().Equals(user)).OrderBy(x => x.ID).FirstOrDefault();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OrderExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+
+        }
+
         // GET: api/Orders/5
         [ResponseType(typeof(Models.Order))]
         public async Task<IHttpActionResult> GetOrder(int id)

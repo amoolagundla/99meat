@@ -21,7 +21,7 @@ namespace _99meat.ChatHub
         public void sendToSpecific(string name, string message, string to)
         {
             // Call the broadcastMessage method to update clients.
-           // Clients.Caller.broadcastMessage(name, message);
+            Clients.Caller.broadcastMessage(name, message);
             Clients.Client(dic[to]).broadcastMessage(name, message);
         }
         public void Notify(string name, string id)

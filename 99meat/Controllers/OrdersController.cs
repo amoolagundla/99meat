@@ -63,8 +63,9 @@ namespace _99meat.Controllers
             try
             {
                 await db.SaveChangesAsync();
-                //var user = User.Identity.Name;
-                //PushTokens pushTokens = db.PushTokens.Where(x => x.Email.ToString().Equals(user)).OrderBy(x => x.ID).FirstOrDefault();
+                var pushToken = new SendNotification();
+                var token = await db.PushTokens.Where(x => x.Email == order.Email).FirstOrDefaultAsync();
+                await pushToken.SendPushNotification("Order Status", "Yum Yum,your food is cooked and redy to pick up", token.token);
             }
             catch (DbUpdateConcurrencyException)
             {

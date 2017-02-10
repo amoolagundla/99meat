@@ -19,37 +19,44 @@ namespace _99meat.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/PushTokens
-        public IQueryable<PushTokens> GetPushTokens()
+        public async Task<IQueryable<PushTokens>> GetPushTokens()
         {
+            //var user = User.Identity.Name;
+            //var pushToken = new SendNotification();
+            //var token = await db.PushTokens.Where(x => x.Email == user).FirstOrDefaultAsync();
+            //await pushToken.SendPushNotification("Order Status", "Yum Yum your food is cooked and redy to puck up", token.token);
             return db.PushTokens;
         }
 
         // GET: api/Addresses/5
         [ResponseType(typeof(string))]
-        [Route("api/PushTokens/SavePushTokens/{Id}")]
-        [HttpGet]
-        public async Task<IHttpActionResult> SavePushTokens(string Id)
+        [Route("api/PushTokens/SavePushTokens")]
+        [HttpPost]
+        public async Task<IHttpActionResult> SavePushTokens(FacebookTokens facebookTokens)
         {
             var user = User.Identity.Name;
-            PushTokens pushTokens =  db.PushTokens.Where(x => x.Email.ToString().Equals(user)).OrderBy(x => x.ID).FirstOrDefault();
+            PushTokens pushTokens = await db.PushTokens.Where(x => x.Email.ToString().Equals(user)).OrderBy(x => x.ID).FirstOrDefaultAsync();
 
             if (pushTokens == null)
             {
                 db.PushTokens.Add(new PushTokens()
                 {
                     Email = user,
-                    token = Id
+                    token = facebookTokens.token
                 });
             }
             else
             {
-                pushTokens.token = Id;
+                pushTokens.token = facebookTokens.token;
                 db.Entry(pushTokens).State = System.Data.Entity.EntityState.Modified;
             }
 
             try
             {
                 await db.SaveChangesAsync();
+                //var pushToken = new SendNotification();
+                //var token = await  db.PushTokens.Where(x => x.Email == user).FirstOrDefaultAsync();
+                //await pushToken.SendPushNotification("Order Status", "Yum Yum,your food is cooked and redy to pick up", token.token);
             }
             catch (DbUpdateConcurrencyException)
             {

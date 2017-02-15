@@ -57,15 +57,16 @@ namespace _99meat.Controllers
         public async Task<IHttpActionResult> UpdateOrder(int id ,int status)
         {
             Models.Order order = await db.Orders.FindAsync(id);
-            order.OrderStatus = ((_99meat.Models.OrderStatus)status).ToString();
+            var obj =  (_99meat.Models.OrderStatus)status;
+            order.OrderStatus = obj.ToString();
             db.Entry(order).State = System.Data.Entity.EntityState.Modified;
 
             try
             {
                 await db.SaveChangesAsync();
                 var pushToken = new SendNotification();
-                var token = await db.PushTokens.Where(x => x.Email == order.Email).FirstOrDefaultAsync();
-                await pushToken.SendPushNotification("Order Status", "Yum Yum,your food is cooked and redy to pick up", token.token);
+                var token = await db.PushTokens.Where(x => x.Email == order.UserId).FirstOrDefaultAsync();
+                await pushToken.SendPushNotification("Order Status", "Yum Yum! your food is ready to pick up", token.token);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -133,7 +134,7 @@ namespace _99meat.Controllers
 
         // POST: api/Orders
         [ResponseType(typeof(Models.Order))]
-        public async Task<IHttpActionResult> PostOrder(ViewModel.Order order)
+        public async Task<IHttpActionResult> PostOrder(ViewModel.OrderView order)
         {
 
             if (!ModelState.IsValid)
@@ -161,8 +162,17 @@ namespace _99meat.Controllers
                 });
             }
             db.Orders.Add(_order);
-            await db.SaveChangesAsync();
-
+            try
+            {
+                await db.SaveChangesAsync();
+                var pushToken = new SendNotification();
+                var token = await db.PushTokens.Where(x => x.Email == "sys@gmail.com").FirstOrDefaultAsync();
+                await pushToken.SendPushNotification("Order Status", "You have a new order", token.token);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                    throw;
+            }
             return CreatedAtRoute("DefaultApi", new { id = _order.Id }, order);
         }
 

@@ -50,9 +50,10 @@ namespace _99meat.ViewModel
         public decimal UnitPrice { get; set; }
         public int ProductAmount { get; set; }
         public string AddressId { get; set; }
+        public string pic { get; set; }
     }
 
-    public class Order
+    public class OrderView
     {
         [Required]
         public string DeliveryTime { get; set; }
@@ -65,7 +66,7 @@ namespace _99meat.ViewModel
         public int PaymentMethod { get; set; }
     }
 
-    public class Product
+    public class ProductView
     {
         [Required]
         public int Id { get; set; }
@@ -86,7 +87,7 @@ namespace _99meat.ViewModel
         public int Quantity { get; set; }
         [Required]
         public int UnitPrice { get; set; }
-        public Product Product { get; set; }
+        public ProductView Product { get; set; }
         public int total { get; set; }
     }
 }

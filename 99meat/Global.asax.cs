@@ -36,8 +36,8 @@ namespace _99meat
             Request.Headers.Remove("Access-Control-Allow-Origin");
             Request.Headers.Add("Access-Control-Allow-Origin", "*");
             Response.Headers.Remove("Access-Control-Allow-Origin");
-            if(Response.BufferOutput == true)
-            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            if (Response.BufferOutput == true)
+                Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
         }
     }

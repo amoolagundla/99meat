@@ -142,6 +142,55 @@ namespace _99meat.Controllers
                 ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
             };
         }
+        [AllowAnonymous]
+        [Route("LostPassword")]
+        [HttpPost]
+        public async Task<IHttpActionResult> LostPassword(FacebookTokens email)
+        {
+            var user = await UserManager.FindByEmailAsync(email.token.ToString());
+            if (user != null)
+            {
+                // Generate the token 
+                var code = await UserManager.GenerateChangePhoneNumberTokenAsync(user.Id.ToString(),user.PhoneNumber.ToString());
+                var sed = new SendNotification();
+                var msg = await sed.SendText("Your verification code is"+code, "+1"+user.PhoneNumber);
+                return Ok("success");
+            }
+            else
+            {
+                return InternalServerError();
+            }
+            
+        }
+        // POST api/Account/ChangePassword
+        [Route("ChangeResetPassword")]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> ChangeResetPassword(ChangeResetPasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await UserManager.FindByEmailAsync(model.Email.ToString());
+            if (user != null)
+            {
+                var res = await UserManager.VerifyChangePhoneNumberTokenAsync(user.Id.ToString(), model.Token.ToString(), user.PhoneNumber.ToString());
+                if (res)
+                {
+                    IdentityResult rmp = await UserManager.RemovePasswordAsync(user.Id);
+                    IdentityResult result = await UserManager.AddPasswordAsync(user.Id, model.NewPassword);
+
+                    if (!result.Succeeded)
+                    {
+                        return GetErrorResult(result);
+                    }
+
+                    return Ok("success");
+                }
+                
+            }
+            return Ok("success");
+        }
 
         // POST api/Account/ChangePassword
         [Route("ChangePassword")]

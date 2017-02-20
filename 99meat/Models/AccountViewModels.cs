@@ -13,7 +13,12 @@ namespace _99meat.Models
 
         public string State { get; set; }
     }
+    public class PasswordReset
+    {
 
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+    }
     public class ManageInfoViewModel
     {
         public string LocalLoginProvider { get; set; }

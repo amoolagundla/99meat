@@ -145,13 +145,13 @@ namespace _99meat.Controllers
         [AllowAnonymous]
         [Route("LostPassword")]
         [HttpPost]
-        public async Task<IHttpActionResult> LostPassword(FacebookTokens email)
+        public async Task<IHttpActionResult> LostPassword(PasswordReset email)
         {
-            var user = await UserManager.FindByEmailAsync(email.token.ToString());
+            var user = await UserManager.FindByEmailAsync(email.Email.ToString());
             if (user != null)
             {
                 // Generate the token 
-                var code = await UserManager.GenerateChangePhoneNumberTokenAsync(user.Id.ToString(),user.PhoneNumber.ToString());
+                var code = await UserManager.GenerateChangePhoneNumberTokenAsync(user.Id.ToString(), email.PhoneNumber.ToString());
                 var sed = new SendNotification();
                 var msg = await sed.SendText("Your verification code is"+code, "+1"+user.PhoneNumber);
                 return Ok("success");

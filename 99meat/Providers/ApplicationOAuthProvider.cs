@@ -102,6 +102,8 @@ namespace _99meat.Providers
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
             string email = string.Empty;
+            var userdetails = new GmailAccess();
+            var nuser = new ApplicationUser();
             if (context.GrantType.ToLower() == "facebook")
             {
                 var fb = new FacebookClient("1835538836698571|XsHdA0c38xZZArNW7MnrYlQMiIk");
@@ -118,7 +120,13 @@ namespace _99meat.Providers
 
                 string id = response.id;
                 email = response.email;
+                 nuser = new ApplicationUser()
+                {
+                    UserName = email,
+                    Email = email
+                  
 
+                };
 
             }
 
@@ -126,7 +134,7 @@ namespace _99meat.Providers
             {
 
 
-                var userdetails = Newtonsoft.Json.JsonConvert.DeserializeObject<GmailAccess>(context.Parameters.Get("accesstoken").ToString());
+                 userdetails = Newtonsoft.Json.JsonConvert.DeserializeObject<GmailAccess>(context.Parameters.Get("accesstoken").ToString());
 
 
                 using (var clients = new HttpClient())
@@ -144,6 +152,16 @@ namespace _99meat.Providers
                     var userdet=Newtonsoft.Json.JsonConvert.DeserializeObject< PrasedToken>(resultContent);
                     if(!string.IsNullOrEmpty(userdet.access_token))
                     email = userdetails.email;
+
+                    nuser = new ApplicationUser()
+                    {
+                        UserName = email,
+                        Email = email,
+                         FirstName=userdetails.familyName,
+                         LastName=userdetails.givenName
+
+
+                    };
                 }
 
                
@@ -153,12 +171,7 @@ namespace _99meat.Providers
             {
                 return;
             }
-            var nuser = new ApplicationUser()
-            {
-                UserName = email,
-                Email = email
-
-            };
+          
 
 
             ApplicationUser user = userManager.FindByEmail(email);

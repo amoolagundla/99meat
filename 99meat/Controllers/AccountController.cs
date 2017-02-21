@@ -153,7 +153,7 @@ namespace _99meat.Controllers
                 // Generate the token 
                 var code = await UserManager.GenerateChangePhoneNumberTokenAsync(user.Id.ToString(), email.PhoneNumber.ToString());
                 var sed = new SendNotification();
-                var msg = await sed.SendText("Your verification code is"+code, "+1"+user.PhoneNumber);
+                var msg = await sed.SendText("From BIRYANICITY : Your  verification code is"+code, "+1"+user.PhoneNumber);
                 return Ok("success");
             }
             else
@@ -187,9 +187,17 @@ namespace _99meat.Controllers
 
                     return Ok("success");
                 }
+                else
+                {
+                    return Ok(res);
+                }
                 
             }
-            return Ok("success");
+            else
+            {
+                return Ok("user not found");
+            }
+          
         }
 
         // POST api/Account/ChangePassword

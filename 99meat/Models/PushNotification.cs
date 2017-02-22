@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -27,21 +28,7 @@ namespace _99meat.Models
     {
         public async Task<string> SendText(string message, string to)
         {
-            // Your Account SID from twilio.com/console
-            //  var accountSid = "AC0ab059bec97d061fbc4b742f86d01bea";
-            // Your Auth Token from twilio.com/console
-            //  var authToken = "c0ba1f4ca1f63e4e57b1cf3982f0bf07";
-
-            //var client = new RestClient("https://api.twilio.com/2010-04-01/Accounts/ACd7bd0f2c7c4c4fae3a5d2df4c186f75f/Messages");
-            //var request = new  RestRequest(Method.POST);
-            //request.AddHeader("postman-token", "6b5ef0fc-b7e2-c20d-170c-3b720192a43d");
-            //request.AddHeader("cache-control", "no-cache");
-            //request.AddHeader("authorization", "Basic QUNkN2JkMGYyYzdjNGM0ZmFlM2E1ZDJkZjRjMTg2Zjc1ZjozOGViMWU2NzdhNzUzMzIzMDVmMGFlZjEyMzU0NDM1MA==");
-            //request.AddHeader("content-type", "application/x-www-form-urlencoded");
-            //request.AddParameter("application/x-www-form-urlencoded", "From=%2B12408396762&To=%2B14246340454&Body=hiii", ParameterType.RequestBody);
-            //IRestResponse response = client.Execute(request);
-
-            using (var client = new HttpClient())
+             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://api.twilio.com");
 
@@ -69,17 +56,53 @@ namespace _99meat.Models
             }
             return string.Empty;
         }
-        public async Task<string> SendPushNotification(string tittle, string message, string token)
+        public async Task<string> SendPushNotification(string tittle, string message, string token,string phonenumber=null)
         {
-            var notify = new PushNotification();
-            notify.tokens = new List<string>();
-            notify.tokens.Add(token);
-            notify.profile = "dev";
-            notify.notification = new Notification()
+            var isTokenActive = await getTokenActive(token);
+            if (!isTokenActive&& !string.IsNullOrEmpty(phonenumber))
             {
-                title = tittle,
-                message = message
-            };
+
+                return await SendText("Biryani City: Your food is ready to pick up", phonenumber);
+            }
+            else
+            {
+                var notify = new PushNotification();
+                notify.tokens = new List<string>();
+                notify.tokens.Add(token);
+                notify.profile = "dev";
+                notify.notification = new Notification()
+                {
+                    title = tittle,
+                    message = message
+                };
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("https://api.ionic.io/");
+
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDZmOTlkMi1hMmUzLTQxZjAtOWE2NC1kNjZlZTNlZGEwODQifQ.yNYeHNZ36LuHSHioqqSi8HZCInsH4ujQLgnJFYIpOAI");
+                    client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
+                    HttpResponseMessage response = await client.PostAsJsonAsync("push/notifications", notify);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
+            return string.Empty;
+        }
+
+        private async Task<bool> getTokenActive(string token)
+        {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://api.ionic.io/");
@@ -89,20 +112,22 @@ namespace _99meat.Models
                     new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDZmOTlkMi1hMmUzLTQxZjAtOWE2NC1kNjZlZTNlZGEwODQifQ.yNYeHNZ36LuHSHioqqSi8HZCInsH4ujQLgnJFYIpOAI");
                 client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
-                HttpResponseMessage response = await client.PostAsJsonAsync("push/notifications", notify);
+                HttpResponseMessage response = await client.GetAsync("push/tokens");
 
                 if (response.IsSuccessStatusCode)
                 {
-
-
+                    var content = await response.Content.ReadAsStringAsync();                  
+                    var tokenData = Newtonsoft.Json.JsonConvert.DeserializeObject<TokenData>(content);
+                    var tokendata =  tokenData.data.Where(x => x.token.ToString().Equals(token)).FirstOrDefault();
+                    if(tokendata!=null)
+                    {
+                        return tokendata.valid;
+                    }
                 }
-                else
-                {
 
-                }
+                return false;
+
             }
-
-            return string.Empty;
         }
     }
 

@@ -24,8 +24,8 @@ namespace _99meat.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetAll()
         {
-            var userInfo = await db.Database.SqlQuery<AspNetUser>("GetUserByEmail @email", new SqlParameter("@email", User.Identity.Name) ).FirstOrDefaultAsync();
-          
+             var userInfo = await db.Database.SqlQuery<AspNetUser>("GetUserByEmail @email", new SqlParameter("@email", User.Identity.Name) ).FirstOrDefaultAsync();
+         
             var orders = new UserInfoViewModelWithAddresses()
             {
                 Id = userInfo.Id,

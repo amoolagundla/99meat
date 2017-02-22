@@ -11,7 +11,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using _99meat.Models;
 using System.Security.Claims;
-using static _99meat.Controllers.AccountController;
 using System.Data.SqlClient;
 using _99meat.ViewModel;
 
@@ -21,7 +20,12 @@ namespace _99meat.Controllers
     public class OrdersController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+       
 
+       
+        public OrdersController()
+        {
+        }
         // GET: api/Orders
         public IQueryable<Models.Order> GetOrders()
         {
@@ -66,10 +70,10 @@ namespace _99meat.Controllers
                 await db.SaveChangesAsync();
                 var pushToken = new SendNotification();
                 var token = await db.PushTokens.Where(x => x.Email == order.UserId).FirstOrDefaultAsync();
-                if(order.OrderStatus.ToString().Equals(OrderStatus.OrderCooked.ToString()))
-                await pushToken.SendPushNotification("Order Status", "Yum Yum! your food is ready to pick up", token.token);
-                else
-                    await pushToken.SendPushNotification("Order Status", "Your order has been picked up", token.token);
+                var userInfo = await db.Database.SqlQuery<AspNetUser>("GetUserByEmail @email", new SqlParameter("@email", order.UserId)).FirstOrDefaultAsync();
+
+                await pushToken.SendPushNotification("Order Status", "Yum Yum! your food is ready to pick up", token.token, userInfo.PhoneNumber);
+             
             }
             catch (DbUpdateConcurrencyException)
             {

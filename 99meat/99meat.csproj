@@ -362,9 +362,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.html" />
+    <Content Include="App_Data\aspnet-99meat-20161205074245.mdf" />
+    <Content Include="App_Data\aspnet-99meat-20161205074245_log.ldf">
+      <DependentUpon>aspnet-99meat-20161205074245.mdf</DependentUpon>
+    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="assets\fonts\ionicons.svg" />
     <Content Include="assets\icon\favicon.ico" />
+    <Content Include="assets\icon\sicon.png" />
     <Content Include="assets\img\1.jpg" />
     <Content Include="assets\img\10.jpg" />
     <Content Include="assets\img\11.png" />
@@ -378,11 +383,13 @@
     <Content Include="assets\img\8.jpg" />
     <Content Include="assets\img\9.jpg" />
     <Content Include="assets\img\adam.jpg" />
+    <Content Include="assets\img\appicon.png" />
     <Content Include="assets\img\banner-bg.jpg" />
     <Content Include="assets\img\ben.png" />
     <Content Include="assets\img\beverages.jpg" />
     <Content Include="assets\img\bg.jpg" />
     <Content Include="assets\img\bg1.jpg" />
+    <Content Include="assets\img\bir.jpg" />
     <Content Include="assets\img\categories\appetizes.png" />
     <Content Include="assets\img\categories\bugger.jpg" />
     <Content Include="assets\img\categories\desserts.png" />
@@ -446,6 +453,7 @@
     <Content Include="assets\img\people\perry.png" />
     <Content Include="assets\img\perry.png" />
     <Content Include="assets\img\Platter.jpg" />
+    <Content Include="assets\img\poi.gif" />
     <Content Include="assets\img\res01.jpg" />
     <Content Include="assets\img\res02.jpg" />
     <Content Include="assets\img\Sheep Mutton with bone.jpg" />
@@ -453,6 +461,7 @@
     <Content Include="build\main.css" />
     <Content Include="build\main.js" />
     <Content Include="build\polyfills.js" />
+    <Content Include="config.xml" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\favicon.ico" />
@@ -460,6 +469,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
+    <Content Include="jquery.js" />
+    <Content Include="jquery.signalR.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -510,6 +521,7 @@
     <Content Include="assets\fonts\roboto-regular.ttf" />
     <Content Include="assets\fonts\roboto-regular.woff" />
     <Content Include="assets\fonts\roboto.scss" />
+    <Content Include=".gitkeep" />
     <None Include="Properties\PublishProfiles\99Pumba - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\99Pumba - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -565,9 +577,7 @@
     <Content Include="Views\OrderDetails\Edit.cshtml" />
     <Content Include="Views\OrderDetails\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

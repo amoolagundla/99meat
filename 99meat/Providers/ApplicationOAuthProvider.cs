@@ -101,40 +101,59 @@ namespace _99meat.Providers
         public override async Task GrantCustomExtension(OAuthGrantCustomExtensionContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+
+
             string email = string.Empty;
             var userdetails = new GmailAccess();
             var nuser = new ApplicationUser();
             if (context.GrantType.ToLower() == "facebook")
             {
-                var fb = new FacebookClient("1835538836698571|XsHdA0c38xZZArNW7MnrYlQMiIk");
-                dynamic result = fb.Get("debug_token", new { input_token = context.Parameters.Get("accesstoken").ToString() });
-                var appId = result.data.app_id;
-                var isValid = result.data.is_valid;
-                var application = result.data.application;
-                var userId = result.data.user_id;
-                var expiresAt = result.data.expires_at;
-                var scopes = result.data.scopes;
-
-
-                dynamic response = await fb.GetTaskAsync("/me?fields=email,gender", new { access_token = context.Parameters.Get("accesstoken").ToString() });
-
-                string id = response.id;
-                email = response.email;
-                 nuser = new ApplicationUser()
+                ApplicationDbContext db = new ApplicationDbContext();
+                db.facebookTokens.Add(new FacebookTokens()
                 {
-                    UserName = email,
-                    Email = email
-                  
 
-                };
+                    token = context.Parameters.Get("accesstoken").ToString()
+                });
+                db.SaveChanges();
 
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("https://graph.facebook.com");
+
+                    var req = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, "/me?fields=id,first_name,last_name,gender,email&access_token=" + context.Parameters.Get("accesstoken").ToString());
+
+
+                    var response = await client.SendAsync(req);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+                        var tokenData = Newtonsoft.Json.JsonConvert.DeserializeObject<FBTok>(content);
+
+                        string id = tokenData.id;
+                        email = tokenData.email;
+                        nuser = new ApplicationUser()
+                        {
+                            UserName = email,
+                            Email = email,
+                            FirstName = tokenData.first_name,
+                            LastName = tokenData.last_name
+
+
+                        };
+
+                    }
+                    else
+                    {
+
+                    }
+                }
             }
 
             else if (context.GrantType.ToLower() == "google")
             {
 
 
-                 userdetails = Newtonsoft.Json.JsonConvert.DeserializeObject<GmailAccess>(context.Parameters.Get("accesstoken").ToString());
+                userdetails = Newtonsoft.Json.JsonConvert.DeserializeObject<GmailAccess>(context.Parameters.Get("accesstoken").ToString());
 
 
                 using (var clients = new HttpClient())
@@ -142,36 +161,36 @@ namespace _99meat.Providers
                     clients.BaseAddress = new Uri("https://accounts.google.com/");
                     var content = new FormUrlEncodedContent(new[]
                     {
-                new KeyValuePair<string, string>("client_id", "794768984490-keg257msut0vkmlfp92o0a68o6i36q41.apps.googleusercontent.com"),
-                new KeyValuePair<string, string>("client_secret", "KqzFGztmh8rYGFTS29ge8qUr"),          
-                new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                 new KeyValuePair<string, string>("code", userdetails.serverAuthCode)
-            });
+                        new KeyValuePair<string, string>("client_id", "794768984490-keg257msut0vkmlfp92o0a68o6i36q41.apps.googleusercontent.com"),
+                        new KeyValuePair<string, string>("client_secret", "KqzFGztmh8rYGFTS29ge8qUr"),
+                        new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                         new KeyValuePair<string, string>("code", userdetails.serverAuthCode)
+                    });
                     var result = await clients.PostAsync("o/oauth2/token", content);
                     string resultContent = await result.Content.ReadAsStringAsync();
-                    var userdet=Newtonsoft.Json.JsonConvert.DeserializeObject< PrasedToken>(resultContent);
-                    if(!string.IsNullOrEmpty(userdet.access_token))
-                    email = userdetails.email;
+                    var userdet = Newtonsoft.Json.JsonConvert.DeserializeObject<PrasedToken>(resultContent);
+                    if (!string.IsNullOrEmpty(userdet.access_token))
+                        email = userdetails.email;
 
                     nuser = new ApplicationUser()
                     {
                         UserName = email,
                         Email = email,
-                         FirstName=userdetails.familyName,
-                         LastName=userdetails.givenName
+                        FirstName = userdetails.familyName,
+                        LastName = userdetails.givenName
 
 
                     };
                 }
 
-               
-              
+
+
             }
             if (string.IsNullOrEmpty(email))
             {
                 return;
             }
-          
+
 
 
             ApplicationUser user = userManager.FindByEmail(email);

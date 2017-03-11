@@ -78,8 +78,8 @@ namespace _99meat
             //    consumerSecret: "");
 
             app.UseFacebookAuthentication(
-                appId: "1835538836698571",
-                appSecret: "c7a2f4ddae439636757264eb72a25fba");
+                appId: "1828020577450397",
+                appSecret: "b14f17aa92fa4cd246518066b417d3bc");
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {

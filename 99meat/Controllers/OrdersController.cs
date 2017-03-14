@@ -72,7 +72,7 @@ namespace _99meat.Controllers
                 var token = await db.PushTokens.Where(x => x.Email == order.UserId).FirstOrDefaultAsync();
                 var userInfo = await db.Database.SqlQuery<AspNetUser>("GetUserByEmail @email", new SqlParameter("@email", order.UserId)).FirstOrDefaultAsync();
 
-                await pushToken.SendPushNotification("Order Status", "Yum Yum! your food is ready to pick up", token.token, userInfo.PhoneNumber);
+                await pushToken.SendPushNotification("Order Status", "Yum Yum! your food is ready to pick up", token?.token, userInfo.PhoneNumber);
              
             }
             catch (DbUpdateConcurrencyException)

@@ -82,7 +82,7 @@ namespace _99meat.Models
                     // Add an Accept header for JSON format.
                     client.DefaultRequestHeaders.Accept.Add(
                         new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDZmOTlkMi1hMmUzLTQxZjAtOWE2NC1kNjZlZTNlZGEwODQifQ.yNYeHNZ36LuHSHioqqSi8HZCInsH4ujQLgnJFYIpOAI");
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmODA4ZGNiYS0yYWE1LTQzYTEtYmI5Yi0zZjY1ODc5OTk1MDcifQ.Se0V8bFULm8srr4_C4IH2rjwrRJylOXawE33rGRZ7aM");
                     client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
                     HttpResponseMessage response = await client.PostAsJsonAsync("push/notifications", notify);
 
@@ -110,7 +110,7 @@ namespace _99meat.Models
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMDZmOTlkMi1hMmUzLTQxZjAtOWE2NC1kNjZlZTNlZGEwODQifQ.yNYeHNZ36LuHSHioqqSi8HZCInsH4ujQLgnJFYIpOAI");
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmODA4ZGNiYS0yYWE1LTQzYTEtYmI5Yi0zZjY1ODc5OTk1MDcifQ.Se0V8bFULm8srr4_C4IH2rjwrRJylOXawE33rGRZ7aM");
                 client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
                 HttpResponseMessage response = await client.GetAsync("push/tokens");
 

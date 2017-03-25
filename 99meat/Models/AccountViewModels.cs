@@ -5,6 +5,34 @@ namespace _99meat.Models
 {
     // Models returned by AccountController actions.
 
+    public class OneSignalNotification
+    {
+        public string app_id { get; set; }
+        public List<string> include_player_ids { get; set; }
+        public Data data { get; set; }
+        public Contents contents { get; set; }
+        public string android_accent_color { get; set; }
+        public string small_icon { get; set; }
+        public string large_icon { get; set; }
+        public string big_picture { get; set; }
+    }
+
+    public class Data
+    {
+        public string foo { get; set; }
+    }
+
+    public class Contents
+    {
+        public string en { get; set; }
+    }
+
+    public class OneSignalTokens
+    {
+        public string userId { get; set; }
+        public string pushToken { get; set; }
+    }
+
     public class ExternalLoginViewModel
     {
         public string Name { get; set; }
@@ -51,15 +79,15 @@ namespace _99meat.Models
 
         public string PhoneNumber { get; set; }
 
-        public List<Address> Addresses { get;set;}
+        public List<Address> Addresses { get; set; }
 
         public List<ViewModel.OrderViewModel> Orders { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-      public List<Product> Products { get; set; }
+        public List<Product> Products { get; set; }
         public List<category> Categories { get; set; }
     }
- 
+
     public class UserLoginInfoViewModel
     {
         public string LoginProvider { get; set; }

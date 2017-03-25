@@ -58,33 +58,32 @@ namespace _99meat.Models
         }
         public async Task<string> SendPushNotification(string tittle, string message, string token,string phonenumber=null)
         {
-            var isTokenActive = await getTokenActive(token);
-            if (!isTokenActive&& !string.IsNullOrEmpty(phonenumber))
-            {
+            var isTokenActive = Newtonsoft.Json.JsonConvert.DeserializeObject<OneSignalTokens>(token);
 
-                return await SendText("Biryani City: Your food is ready to pick up", phonenumber);
-            }
-            else
+            var notification = new OneSignalNotification()
             {
-                var notify = new PushNotification();
-                notify.tokens = new List<string>();
-                notify.tokens.Add(token);
-                notify.profile = "dev";
-                notify.notification = new Notification()
+                android_accent_color = "ed1717",
+                small_icon = "icon",
+                large_icon = "http://biryanicity.azurewebsites.net/assets/img/icon.png",
+                contents = new Contents()
                 {
-                    title = tittle,
-                    message = message
-                };
+                    en = message
+                },
+                app_id = "19e74911-eb39-4e13-83dd-1c11cb3cba1e",
+                include_player_ids = new List<string>() { isTokenActive.userId }
+            };
+            try
+            {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("https://api.ionic.io/");
+                    client.BaseAddress = new Uri("https://onesignal.com/");
 
                     // Add an Accept header for JSON format.
                     client.DefaultRequestHeaders.Accept.Add(
                         new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmODA4ZGNiYS0yYWE1LTQzYTEtYmI5Yi0zZjY1ODc5OTk1MDcifQ.Se0V8bFULm8srr4_C4IH2rjwrRJylOXawE33rGRZ7aM");
+                    client.DefaultRequestHeaders.Add("Authorization", "basic NTU5MjkwNjQtNTljMS00ZTBhLTg2YjMtYTI1ZWY2OTJiMDUz");
                     client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
-                    HttpResponseMessage response = await client.PostAsJsonAsync("push/notifications", notify);
+                    HttpResponseMessage response = await client.PostAsJsonAsync("api/v1/notifications", notification);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -96,6 +95,10 @@ namespace _99meat.Models
 
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                return ex.Message.ToString();
             }
 
             return string.Empty;

@@ -161,8 +161,8 @@ namespace _99meat.Providers
                     clients.BaseAddress = new Uri("https://accounts.google.com/");
                     var content = new FormUrlEncodedContent(new[]
                     {
-                        new KeyValuePair<string, string>("client_id", "794768984490-keg257msut0vkmlfp92o0a68o6i36q41.apps.googleusercontent.com"),
-                        new KeyValuePair<string, string>("client_secret", "KqzFGztmh8rYGFTS29ge8qUr"),
+                        new KeyValuePair<string, string>("client_id", "695358309253-rg8nla5ip1bqs1sk7qlt1imlh7fsatco.apps.googleusercontent.com"),
+                        new KeyValuePair<string, string>("client_secret", "4-ZBWso9eb4Ly2gi_YQtHEC2"),
                         new KeyValuePair<string, string>("grant_type", "authorization_code"),
                          new KeyValuePair<string, string>("code", userdetails.serverAuthCode)
                     });

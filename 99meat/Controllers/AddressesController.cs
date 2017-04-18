@@ -14,8 +14,7 @@ using System.Data.SqlClient;
 
 namespace _99meat.Controllers
 {
-    [Authorize]
-   
+    [Authorize]   
     public class AddressesController : ApiController
     {
          

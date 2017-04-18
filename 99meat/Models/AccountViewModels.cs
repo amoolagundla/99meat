@@ -78,7 +78,7 @@ namespace _99meat.Models
         public string LoginProvider { get; set; }
 
         public string PhoneNumber { get; set; }
-
+        public int minOrder { get; set; }
         public List<Address> Addresses { get; set; }
 
         public List<ViewModel.OrderViewModel> Orders { get; set; }

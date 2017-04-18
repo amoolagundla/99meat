@@ -260,6 +260,8 @@ namespace _99meat.Models
         public int Amount { get; set; }
         public int Quanity { get; set; }
         public decimal UnitPrice { get; set; }
+        public int spicyLevel { get; set; }
+        public string instructions { get; set; }
     }
 
     public class category

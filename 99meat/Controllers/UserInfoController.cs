@@ -34,8 +34,9 @@ namespace _99meat.Controllers
                  LastName =userInfo.LastName,
                  PhoneNumber=userInfo.PhoneNumber,
                 Addresses = await db.Database.SqlQuery<Address>("GetAddressesEmail @email", new SqlParameter("@email", userInfo.Email)).ToListAsync(),
-                Orders= await db.Database.SqlQuery<ViewModel.OrderViewModel>("GetOrders @email", new SqlParameter("@email", userInfo.Email)).ToListAsync()
-
+                Orders= await db.Database.SqlQuery<ViewModel.OrderViewModel>("GetOrders @email", new SqlParameter("@email", userInfo.Email)).ToListAsync(),
+                 minOrder=20
+               
 
         };
             if (userInfo == null)

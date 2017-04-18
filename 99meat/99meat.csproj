@@ -432,6 +432,7 @@
     <Content Include="build\main.css" />
     <Content Include="build\main.js" />
     <Content Include="build\polyfills.js" />
+    <Content Include="build\sw-toolbox.js" />
     <Content Include="config.xml" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -490,7 +491,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="service-worker.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

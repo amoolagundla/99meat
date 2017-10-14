@@ -25,7 +25,9 @@ namespace _99meat.Controllers
         public async Task<IHttpActionResult> GetAll()
         {
              var userInfo = await db.Database.SqlQuery<AspNetUser>("GetUserByEmail @email", new SqlParameter("@email", User.Identity.Name) ).FirstOrDefaultAsync();
-         
+
+            var useroles = await db.Database.SqlQuery<UserRoles>("GetUserRoles @email", new SqlParameter("@email", userInfo.Email)).ToListAsync();
+
             var orders = new UserInfoViewModelWithAddresses()
             {
                 Id = userInfo.Id,
@@ -35,7 +37,8 @@ namespace _99meat.Controllers
                  PhoneNumber=userInfo.PhoneNumber,
                 Addresses = await db.Database.SqlQuery<Address>("GetAddressesEmail @email", new SqlParameter("@email", userInfo.Email)).ToListAsync(),
                 Orders= await db.Database.SqlQuery<ViewModel.OrderViewModel>("GetOrders @email", new SqlParameter("@email", userInfo.Email)).ToListAsync(),
-                 minOrder=20
+                Roles= useroles.Select(x=>x.Roles).ToList(),
+                minOrder =20
                
 
         };

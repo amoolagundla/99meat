@@ -289,42 +289,29 @@
     <Compile Include="Controllers\FacebookTokensController.cs" />
     <Compile Include="Controllers\FavouritesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\latLong.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\OrderDetailsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PushTokensController.cs" />
+    <Compile Include="Controllers\TrackingController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612142319259_Init.cs" />
-    <Compile Include="Migrations\201612142319259_Init.Designer.cs">
-      <DependentUpon>201612142319259_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612241643264_order.cs" />
-    <Compile Include="Migrations\201612241643264_order.Designer.cs">
-      <DependentUpon>201612241643264_order.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612241645062_orderdetail.cs" />
-    <Compile Include="Migrations\201612241645062_orderdetail.Designer.cs">
-      <DependentUpon>201612241645062_orderdetail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612242045483_order1.cs" />
-    <Compile Include="Migrations\201612242045483_order1.Designer.cs">
-      <DependentUpon>201612242045483_order1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701071945430_FacebookTokens.cs" />
-    <Compile Include="Migrations\201701071945430_FacebookTokens.Designer.cs">
-      <DependentUpon>201701071945430_FacebookTokens.cs</DependentUpon>
+    <Compile Include="Migrations\201707161546500_orderdetils.cs" />
+    <Compile Include="Migrations\201707161546500_orderdetils.Designer.cs">
+      <DependentUpon>201707161546500_orderdetils.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\PushNotification.cs" />
+    <Compile Include="Models\ReverseGeoCoding.cs" />
     <Compile Include="Models\TokenData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -334,10 +321,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.html" />
-    <Content Include="App_Data\aspnet-99meat-20161205074245.mdf" />
-    <Content Include="App_Data\aspnet-99meat-20161205074245_log.ldf">
-      <DependentUpon>aspnet-99meat-20161205074245.mdf</DependentUpon>
-    </Content>
     <Content Include="assets\fonts\ionicons.svg" />
     <Content Include="assets\icon\favicon.ico" />
     <Content Include="assets\icon\sicon.png" />
@@ -459,7 +442,6 @@
     <Content Include="assets\img\people\Thumbs.db" />
     <Content Include="assets\img\Thumbs.db" />
     <Content Include="assets\manifest.json" />
-    <Content Include="build\main.js.map" />
     <Content Include="assets\icon\Thumbs.db" />
     <Content Include="assets\fonts\ionicons.scss" />
     <Content Include="assets\fonts\noto-sans-bold.ttf" />
@@ -475,8 +457,10 @@
     <Content Include="assets\fonts\roboto-regular.woff" />
     <Content Include="assets\fonts\roboto.scss" />
     <Content Include=".gitkeep" />
+    <Content Include="categories.json" />
     <None Include="Properties\PublishProfiles\99Pumba - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\99Pumba - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\new.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -531,8 +515,8 @@
     <Content Include="Views\OrderDetails\Details.cshtml" />
     <Content Include="Views\OrderDetails\Edit.cshtml" />
     <Content Include="Views\OrderDetails\Index.cshtml" />
+    <Content Include="TsModels\Template.tst" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -548,21 +532,27 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612142319259_Init.resx">
-      <DependentUpon>201612142319259_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707161546500_orderdetils.resx">
+      <DependentUpon>201707161546500_orderdetils.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612241643264_order.resx">
-      <DependentUpon>201612241643264_order.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612241645062_orderdetail.resx">
-      <DependentUpon>201612241645062_orderdetail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612242045483_order1.resx">
-      <DependentUpon>201612242045483_order1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701071945430_FacebookTokens.resx">
-      <DependentUpon>201701071945430_FacebookTokens.cs</DependentUpon>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="TsServices\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="TsModels\AccountBindingModels.ts">
+      <DependentUpon>Template.tst</DependentUpon>
+      <CustomToolNamespace>Models\AccountBindingModels.cs</CustomToolNamespace>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="TsModels\AccountViewModels.ts">
+      <DependentUpon>Template.tst</DependentUpon>
+      <CustomToolNamespace>Models\AccountViewModels.cs</CustomToolNamespace>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="TsModels\Order.ts">
+      <DependentUpon>Template.tst</DependentUpon>
+      <CustomToolNamespace>ViewModel\Order.cs</CustomToolNamespace>
+    </TypeScriptCompile>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

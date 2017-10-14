@@ -20,9 +20,9 @@ namespace _99meat.Controllers
     public class OrdersController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-       
 
-       
+
+
         public OrdersController()
         {
         }
@@ -31,6 +31,17 @@ namespace _99meat.Controllers
         {
             return db.Orders;
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("api/Orders/GetDeliveryOrders/{email?}")]
+        public List<OrderViewModel> GetDeliveryOrders(string email = null)
+        {
+            var userInfo = db.Database.SqlQuery<OrderViewModel>("GetDeliveryOrders @email", new SqlParameter("@email", email == "null" ? (object)DBNull.Value : email)).ToList<OrderViewModel>();
+
+            return userInfo;
+        }
+
         [HttpGet]
         [Route("api/Orders/GetOrders/{email?}")]
         public List<OrderViewModel> GetOrders(string email = null)
@@ -48,32 +59,118 @@ namespace _99meat.Controllers
 
             return userInfo;
         }
+
+        [AllowAnonymous]
         [HttpGet]
         [Route("api/Orders/GetUserOrderDetails/{email?}")]
         public List<UserOrderDetailViewModel> GetUserOrderDetails(string email = null)
         {
-            var userInfo = db.Database.SqlQuery<UserOrderDetailViewModel>("GetUserOrderDetails @Id", new SqlParameter("@Id", email == null ? (object)DBNull.Value : email)).ToList<UserOrderDetailViewModel>();
+            email = email == "null" ? string.Empty : email;
+            var userInfo = db.Database.SqlQuery<UserOrderDetailViewModel>("GetUserOrderDetails @Id", new SqlParameter("@Id", (email == null || string.IsNullOrEmpty(email)) ? (object)DBNull.Value : email)).ToList<UserOrderDetailViewModel>();
             return userInfo;
         }
-
+        [AllowAnonymous]
         [HttpGet]
-        [Route("api/Orders/UpdateOrder/{id}/{status}")]
-        public async Task<IHttpActionResult> UpdateOrder(int id ,int status)
+        [Route("api/Orders/getDistance/{startAddress}/{endAdress}/{id}")]
+        public async Task<string> getDistance(string startAddress, string endAdress,int id)
+        {
+            var returnstring = string.Empty;
+            var pushToken = new SendNotification();
+            var orderDistance=  await pushToken.GetDistance(startAddress, endAdress);
+            var distance = string.Empty;
+            var duration = string.Empty;
+            var fav = new Favourite();
+          
+            fav.ProductId = id;
+            fav.UserId = 12345;
+            fav.Email = startAddress + "," + endAdress ;
+            db.Favourites.Add(fav);
+            await db.SaveChangesAsync();
+            if (orderDistance.rows.FirstOrDefault().elements.FirstOrDefault().distance.text.ToString().Contains("mi"))
+            {
+                distance = orderDistance.rows.FirstOrDefault().elements.FirstOrDefault().distance.text.ToString().Replace("mi", "").TrimEnd().ToString();
+            }
+            else
+            {
+                distance = orderDistance.rows.FirstOrDefault().elements.FirstOrDefault().distance.text.ToString().Replace("ft", "").TrimEnd().ToString();
+            }
+
+            if (orderDistance.rows.FirstOrDefault().elements.FirstOrDefault().duration_in_traffic.text.ToString().Contains("min"))
+            {
+                duration = orderDistance.rows.FirstOrDefault().elements.FirstOrDefault().duration_in_traffic.text.ToString().Replace("min", "").Replace("s","").TrimEnd().ToString();
+            }
+            else
+            {
+                duration = orderDistance.rows.FirstOrDefault().elements.FirstOrDefault().duration_in_traffic.text.ToString().Replace("mins", "").TrimEnd().ToString();
+            }
+
+            if (!string.IsNullOrEmpty(distance))
+            {
+                var dist = Convert.ToInt32(duration);              
+               
+                if(dist <= 1)
+                {
+                    returnstring = "near";
+                    var ddd = await UpdateOrder(id, 4, distance);
+                }
+                else
+                {
+                    var dd = await UpdateOrder(id, 2, duration);
+                }
+            }
+            
+            return returnstring;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/Orders/CheckLocation/")]
+        public async Task<string> CheckLocation(latLong latlong)
+        {
+            var returnstring = string.Empty;
+            var pushToken = new SendNotification();
+            var distance = string.Empty;
+            var duration = string.Empty;
+            var orderDistance = await pushToken.reverseGeocoding(latlong.lat , latlong.lon);
+           
+            if(orderDistance.results[2].address_components[1].long_name.ToLower().ToString().Equals("delaware"))
+            {
+                returnstring = orderDistance.results[2].formatted_address.ToString();
+            }
+            return returnstring;
+        }
+        [HttpGet]
+        [Route("api/Orders/UpdateOrder/{id}/{status}/{time}")]
+        public async Task<IHttpActionResult> UpdateOrder(int id, int status,string time)
         {
             Models.Order order = await db.Orders.FindAsync(id);
-            var obj =  (_99meat.Models.OrderStatus)status;
+            var previousOrderStatus = order.OrderStatus;
+            var obj = (_99meat.Models.OrderStatus)status;
             order.OrderStatus = obj.ToString();
             db.Entry(order).State = System.Data.Entity.EntityState.Modified;
 
             try
             {
                 await db.SaveChangesAsync();
+                string orderStatus = string.Empty;
                 var pushToken = new SendNotification();
                 var token = await db.PushTokens.Where(x => x.Email == order.UserId).FirstOrDefaultAsync();
                 var userInfo = await db.Database.SqlQuery<AspNetUser>("GetUserByEmail @email", new SqlParameter("@email", order.UserId)).FirstOrDefaultAsync();
-
-                await pushToken.SendPushNotification("Order Status", "Yum Yum! your food is ready to pick up", token?.token, userInfo.PhoneNumber);
-             
+                if (previousOrderStatus != OrderStatus.StartedToDestination.ToString() && status == (int)OrderStatus.StartedToDestination)
+                {
+                    await pushToken.SendPushNotification("Order Status", string.Format("Your order will be arriving shortly in {0} mins", time), token?.token, userInfo.PhoneNumber);
+                }
+                else
+                {
+                    if (status == (int)_99meat.Models.OrderStatus.ReadyToPickup)
+                    {
+                        await pushToken.SendPushNotification("Order Status", "Your Order is Ready To PickUp", token?.token, userInfo.PhoneNumber);
+                    }
+                    else if (status == (int)_99meat.Models.OrderStatus.Arrived)
+                    {
+                        await pushToken.SendPushNotification("Order Status", string.Format("Your order is here", time), token?.token, userInfo.PhoneNumber);
+                    }
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -150,7 +247,7 @@ namespace _99meat.Controllers
             }
             Models.Order _order = new Models.Order();
             _order.AddressId = order.AddressId.ToString();
-            _order.OrderTotal = order.Cart.ToList().Sum(x => x.Quantity * x.UnitPrice);
+            _order.OrderTotal = order.Cart.ToList().Sum(x => x.Quantity * x.Product.Price);
             _order.UserId = User.Identity.Name.ToString();
             _order.OrderStatus = OrderStatus.OrderPlaced.ToString();
 
@@ -162,23 +259,28 @@ namespace _99meat.Controllers
             {
                 _order.OrderItems.Add(new OrderDetail()
                 {
-                    Amount = cat.Amount,
+                    Amount = cat.Product.Price * cat.Quantity,
                     ProductId = cat.Product.Id,
                     Quanity = cat.Quantity,
-                    UnitPrice = decimal.Parse(cat.Product.Price.ToString())
+                    UnitPrice = decimal.Parse(cat.Product.Price.ToString()),
+                    spicyLevel = cat.Product.SpicyLevel,
+                    instructions = cat.Product.Instructions
                 });
             }
             db.Orders.Add(_order);
             try
             {
-                await db.SaveChangesAsync();
+                 db.SaveChanges();
                 var pushToken = new SendNotification();
                 var token = await db.PushTokens.Where(x => x.Email == "sys@gmail.com").FirstOrDefaultAsync();
-                await pushToken.SendPushNotification("Order Status", "You have a new order", token.token);
+                if (token != null)
+                {
+                    await pushToken.SendPushNotification("Order Status", "You have a new order", token.token);
+                }
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                    throw;
+                throw;
             }
             return CreatedAtRoute("DefaultApi", new { id = _order.Id }, order);
         }

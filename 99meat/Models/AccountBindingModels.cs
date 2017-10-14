@@ -18,7 +18,8 @@ namespace _99meat.Models
         OrderPlaced=0,
         OrderCooked=1,
         StartedToDestination=2,
-        ReadyToPickup=3
+        ReadyToPickup=3,
+        Arrived=4
     }
     // Models used as parameters to AccountController actions.
     public class Audience
@@ -286,7 +287,10 @@ namespace _99meat.Models
         public int ID { get; set; }
         public string token { get; set; }
     }
-
+     public class UserRoles
+    {
+        public string Roles { get; set; }
+    }
     public class PushTokens
     {
         [Key]

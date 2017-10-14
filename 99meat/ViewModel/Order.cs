@@ -43,6 +43,41 @@ namespace _99meat.ViewModel
             }
         }
     }
+
+    public class Distance
+    {
+        public string text { get; set; }
+        public int value { get; set; }
+    }
+
+    public class Duration
+    {
+        public string text { get; set; }
+        public int value { get; set; }
+    }
+
+    public class Element
+    {
+        public Distance distance { get; set; }
+        public Duration duration { get; set; }
+        public Duration duration_in_traffic { get; set; }
+        public string status { get; set; }
+    }
+
+    public class Row
+    {
+        public List<Element> elements { get; set; }
+    }
+
+    public class DistanceMatrix
+    {
+        public List<string> destination_addresses { get; set; }
+        public List<string> origin_addresses { get; set; }
+        public List<Row> rows { get; set; }
+        public string status { get; set; }
+    }
+
+
     public class UserOrderDetailViewModel
     {
         public string ProductName { get; set; }
@@ -51,6 +86,8 @@ namespace _99meat.ViewModel
         public int ProductAmount { get; set; }
         public string AddressId { get; set; }
         public string pic { get; set; }
+        public int SpicyLevel { get; set; }
+        public string Instructions { get; set; }
     }
 
     public class OrderView
@@ -64,6 +101,8 @@ namespace _99meat.ViewModel
         public int AddressId { get; set; }
         [Required]
         public int PaymentMethod { get; set; }
+        [Required]
+        public int Amount { get; set; }
     }
 
     public class ProductView
@@ -76,18 +115,16 @@ namespace _99meat.ViewModel
         public int Price { get; set; }
         public string thumb { get; set; }
         public int Offer { get; set; }
+        public int SpicyLevel { get; set; }
+        public string Instructions { get; set; }
     }
 
     public class Cart
     {
-        public string Id { get; set; }
-        [Required]
-        public int Amount { get; set; }
+        public string Id { get; set; }       
         [Required]
         public int Quantity { get; set; }
         [Required]
-        public int UnitPrice { get; set; }
-        public ProductView Product { get; set; }
-        public int total { get; set; }
+        public ProductView Product { get; set; }       
     }
 }

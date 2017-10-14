@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _99meat.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -56,6 +57,58 @@ namespace _99meat.Models
             }
             return string.Empty;
         }
+
+
+        public async Task<ReverseGeoCoding> reverseGeocoding(decimal startAddress, decimal endAddress)
+        {
+            var returnString = new ReverseGeoCoding();
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    string url = string.Format("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + startAddress + "," + endAddress +"&sensor=false&key=AIzaSyARJsMH9WkCWrM17sQQHPj15mB - 78m21iY");
+                    client.BaseAddress = new Uri("https://maps.googleapis.com/maps");
+
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
+                    returnString = Newtonsoft.Json.JsonConvert.DeserializeObject<ReverseGeoCoding>(await client.GetStringAsync(url));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return returnString;
+        }
+
+
+        public async Task<DistanceMatrix> GetDistance(string startAddress, string endAddress)
+        {
+            var returnString = new DistanceMatrix();
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    string url = string.Format("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins={0}&destinations={1}&departure_time=now&traffic_model=best_guess&key=AIzaSyARJsMH9WkCWrM17sQQHPj15mB-78m21iY", startAddress, endAddress);
+                    client.BaseAddress = new Uri("https://maps.googleapis.com/maps");
+
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
+                    returnString = Newtonsoft.Json.JsonConvert.DeserializeObject< DistanceMatrix>( await client.GetStringAsync(url));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return returnString;
+        }
         public async Task<string> SendPushNotification(string tittle, string message, string token,string phonenumber=null)
         {
             var isTokenActive = Newtonsoft.Json.JsonConvert.DeserializeObject<OneSignalTokens>(token);
@@ -64,7 +117,7 @@ namespace _99meat.Models
             {
                 android_accent_color = "ed1717",
                 small_icon = "icon",
-                large_icon = "http://biryanicity.azurewebsites.net/assets/img/icon.png",
+                large_icon = "http://108.61.23.52/plesk-site-preview/www.biryanicityne.com/assets/img/icon.png",
                 contents = new Contents()
                 {
                     en = message

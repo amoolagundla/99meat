@@ -12,3 +12,30 @@
     "status": null
   }
 }
+
+
+ var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterModule(new AutofacConventionModule());
+            containerBuilder.RegisterType<SessionManager>()
+                .AsSelf();
+            //.SingleInstance();
+            containerBuilder.Populate(services);
+            var autofacContainer = containerBuilder.Build();
+            return new AutofacServiceProvider(autofacContainer);
+
+
+
+
+
+public class AutofacConventionModule : Module
+    {
+        protected override void Load(ContainerBuilder builder)
+        {
+            var bootstrapper = new BusinessLogic.Bootstrapper();
+
+            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
+                  .Where(t => t.Name.EndsWith(""))
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+        }
+    }
